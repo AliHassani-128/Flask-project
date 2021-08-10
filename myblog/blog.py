@@ -83,9 +83,11 @@ def register():
         email = request.form.get('email')
         phone = request.form.get('phone')
         image = request.files.get('image')
-        if image != '':
-            image.save('myblog/static/media/uploads/profiles/' +
-                       secure_filename(image.filename))
+        if image:
+            image.save('myblog/static/media/uploads/profiles/' + secure_filename(image.filename))
+        else:
+            flash('عکس برای پروفایلتان انتخاب نکردید!')
+
         db = get_db()
         error = None
 
