@@ -1,3 +1,5 @@
+import json
+from bson import ObjectId
 import functools
 from flask import Blueprint, session
 from flask import flash
@@ -38,10 +40,6 @@ def login_required(view):
         return view(**kwargs)
 
     return wrapped_view
-
-
-from bson import ObjectId
-import json
 
 
 class JSONEncoder(json.JSONEncoder):
@@ -86,7 +84,8 @@ def register():
         phone = request.form.get('phone')
         image = request.files.get('image')
         if image != '':
-            image.save('myblog/static/media/uploads/profiles/' + secure_filename(image.filename))
+            image.save('myblog/static/media/uploads/profiles/' +
+                       secure_filename(image.filename))
         db = get_db()
         error = None
 
@@ -132,9 +131,11 @@ def login():
             session.clear()
             user['_id'] = str(user['_id'])
             session["user_id"] = user["_id"]
+            flash(f"عزیز،خوش امدید!{user['username']}", "alert-success")
             return redirect(url_for("blog.home"))
         else:
-            flash(error)
+            flash(
+                "کاربر عزیز،نام کاربری یا رمز عبور اشتباه است.مجددا تلاش کنید", "alert-danger")
 
     return render_template("auth/login.html")
 
