@@ -83,7 +83,7 @@ def register():
         email = request.form.get('email')
         phone = request.form.get('phone')
         image = request.files.get('image')
-        if image != '':
+        if image:
             image.save('myblog/static/media/uploads/profiles/' +
                        secure_filename(image.filename))
         else:
