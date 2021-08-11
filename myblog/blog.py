@@ -93,9 +93,9 @@ def register():
         error = None
 
         if not username:
-            error = "Username is required."
+            error = "نام کاربری الزامی است"
         elif not password:
-            error = "Password is required."
+            error = "رمز عبور الزامی است"
         elif db.user.find_one({"username": username}) is not None:
             error = f"استفاده شده است.لطفا نام دیگری انتخاب کنید{username}نام کاربری"
 
@@ -124,10 +124,15 @@ def login():
 
         user = db.user.find_one({"username": username})
 
-        if user is None:
-            error = "نام کاربری وارد شده درست نمیباشد.مجددا تلاش کنید"
-        elif not check_password_hash(user["password"], password):
-            error = "رمز وارد شده نادرست است.مجددا تلاش کنید"
+        if not username:
+            error = "! نام کاربری وارد نشده است "
+        elif not password:
+            error = "! رمز عبور وارد نشده است "
+        else:
+            if user is None:
+                error = 'کاربری با این مشخصات وجود ندارد'
+            elif not check_password_hash(user["password"], password):
+                error = "! رمز عبور نادرست است"
 
         if error is None:
             # store the user id in a new session and return to the index
@@ -137,8 +142,7 @@ def login():
             flash(f"عزیز،خوش امدید!{user['username']}", "alert-success")
             return redirect(url_for("blog.home"))
         else:
-            flash(
-                "کاربر عزیز،نام کاربری یا رمز عبور اشتباه است.مجددا تلاش کنید", "alert-danger")
+            flash(error, "alert-danger")
 
     return render_template("auth/login.html")
 
@@ -148,3 +152,4 @@ def user_posts(user_id):
     user = get_db().user.find({'_id': ObjectId(user_id)})
     posts = get_db().posts.find({'user._id': user[0]['_id']})
     return render_template('all_posts.html', posts=list(posts))
+
