@@ -84,7 +84,8 @@ def register():
         phone = request.form.get('phone')
         image = request.files.get('image')
         if image:
-            image.save('myblog/static/media/uploads/profiles/' + secure_filename(image.filename))
+            image.save('myblog/static/media/uploads/profiles/' +
+                       secure_filename(image.filename))
         else:
             flash('عکس برای پروفایلتان انتخاب نکردید!')
 
@@ -96,7 +97,7 @@ def register():
         elif not password:
             error = "Password is required."
         elif db.user.find_one({"username": username}) is not None:
-            error = f"User {username} is already registered."
+            error = f"استفاده شده است.لطفا نام دیگری انتخاب کنید{username}نام کاربری"
 
         if error is None:
             # the name is available, store it in the database and go to
@@ -106,7 +107,7 @@ def register():
             db.user.insert_one(user)
             return redirect(url_for("blog.login"))
         else:
-            flash(error)
+            flash(error, "alert-danger")
 
     return render_template("auth/register.html")
 
@@ -124,9 +125,9 @@ def login():
         user = db.user.find_one({"username": username})
 
         if user is None:
-            error = "Incorrect username."
+            error = "نام کاربری وارد شده درست نمیباشد.مجددا تلاش کنید"
         elif not check_password_hash(user["password"], password):
-            error = "Incorrect password."
+            error = "رمز وارد شده نادرست است.مجددا تلاش کنید"
 
         if error is None:
             # store the user id in a new session and return to the index
