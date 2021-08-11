@@ -1,8 +1,13 @@
 {% extends 'index.html' %}
 
 {% block posts %}
+    {% with massages= get_flashed_messages(with_categories=true)%} {% if massages %} {% for category,massage in massages %}
+    <div class="text-center text-dark alert {{ category }}" id="#mydiv">
+        {% if category=="alert-success" %}  {% endif %} {{ massage }} </div>  {% endfor %} {% endif %} {% endwith %}
 {% if posts %}
+
 <div class="container_fluid">
+
     <div id="posts" class="row " style="min-width: 100%">
         {% for post in posts %}
         <div class="col-4 bg-white mt-2">
@@ -37,4 +42,7 @@
 </div>
 {% endif %}
 
+{% endblock %}
+{% block js %}
+    <script>$("#mydive").delay(5000).hide()</script>
 {% endblock %}
