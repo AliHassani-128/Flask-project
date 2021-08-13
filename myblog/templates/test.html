@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+{#برای تست categoryاز دیتا بیس#}
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<ul>
+    {%  for category in categories %}
+    <li>{{ category.name }}</li>
+        <li>{{ category.category }}</li>
+    {%  endfor %}
+</ul>
+
+
+</body>
+</html>
