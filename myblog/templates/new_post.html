@@ -14,11 +14,15 @@
                           placeholder="محتوای مطلب"></textarea>
             </div>
             <div class="row mt-4 input">
-                <select name="category" id="categorys">
-                    {% for category in categorys%}
-                    <option value="{{ category.id }}">{{category.name}}</option>
+            <label for="categorys"> دسته بندی:</label>
+                <select name="category" id="categorys" >
+
+                    {% for category in categories%}
+                    <option value="{{ category.id }}">{{ category.name }}</option>
+
                     {% endfor %}
                 </select>
+
             </div>
             <div class="row mt-4 input">
 

@@ -30,6 +30,7 @@ def post_list():
 
 @bp.route("/create-post/", methods=['GET', 'POST'])
 def create_post():
+    categoies=get_db().subcategory.find()
     if request.method == 'POST':
         db = get_db()
         title = request.form.get('title')
@@ -54,7 +55,7 @@ def create_post():
         else:
             flash('This post has already exists!')
 
-    return render_template('new_post.html')
+    return render_template('new_post.html',categories=categoies)
 
 
 @bp.route("/edit-post/<post_id>")

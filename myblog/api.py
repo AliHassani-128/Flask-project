@@ -7,6 +7,7 @@ from flask import request
 from flask import url_for
 from werkzeug.exceptions import abort
 from werkzeug.utils import secure_filename
+from myblog.db import get_db
 
 
 bp = Blueprint("api", __name__)
@@ -31,7 +32,8 @@ def post_deactive(post_id):
 
 @bp.route("/categorys-list/")
 def list_categorys():
-    return render_template('')
+    sub_categories=get_db().subcategory.find()
+    return render_template('test.html',categories=sub_categories)
 
 
 @bp.route("/tags-list/")
