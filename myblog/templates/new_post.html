@@ -14,16 +14,19 @@
                           placeholder="محتوای مطلب"></textarea>
             </div>
             <div class="row mt-4 input">
-            <label for="categorys"> دسته بندی:</label>
-                <select name="category" id="categorys" >
-
+            <label for="categorys"> دسته بندی: </label>
+                <select name="category" id="categories" >
                     {% for category in categories%}
-                    <option value="{{ category.id }}">{{ category.name }}</option>
+                    <option  value="{{ category.name }}">{{ category.name }}</option>
 
                     {% endfor %}
                 </select>
-
+                <button type="button" class="btn btn-info" id="category_btn" >انتخاب</button>
             </div>
+
+
+
+
             <div class="row mt-4 input">
 
 
@@ -32,6 +35,7 @@
                     <option value="{{ tag.id }}">{{tag.name}}</option>
                     {% endfor %}
                 </select>
+
             </div>
 
             <div class="row mt-4 input" style="border-radius: 10px;border:1px solid lightgray;height: 150px">
@@ -54,3 +58,4 @@
     </div>
 </form>
 {% endblock %}
+

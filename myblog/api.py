@@ -32,8 +32,12 @@ def post_deactive(post_id):
 
 @bp.route("/categorys-list/")
 def list_categorys():
-    sub_categories=get_db().subcategory.find()
-    return render_template('test.html',categories=sub_categories)
+    categories=get_db().categories.find()
+
+
+    subcategories=get_db().subcategories.find()
+
+    return render_template('test.html',categories=categories,subcategories=subcategories)
 
 
 @bp.route("/tags-list/")

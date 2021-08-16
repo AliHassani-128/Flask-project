@@ -1,3 +1,4 @@
+{% extends 'base.html' %}
 <!DOCTYPE html>
 <html lang="en">
 {#برای تست categoryاز دیتا بیس#}
@@ -6,12 +7,25 @@
     <title>Title</title>
 </head>
 <body>
-<ul>
-    {%  for category in categories %}
-    <li>{{ category.name }}</li>
-        <li>{{ category.category }}</li>
-    {%  endfor %}
-</ul>
+{% block content %}
+
+
+    <ul>
+    <li>_____________________________________</li>
+
+                {% for category in categories %}
+                                    <li>{{ category.name }}</li>
+                            {% for sub in subcategories %}
+                                {% if sub.category_id==category._id %}
+                                    <li>{{ sub.name }}</li>
+
+                                {% endif %}
+                                {% endfor %}
+                        {% endfor %}
+
+    </ul>
+{%  endblock %}
+
 
 
 </body>

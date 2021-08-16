@@ -54,7 +54,9 @@ class JSONEncoder(json.JSONEncoder):
 def home():
     db = get_db()
     posts = db.posts.find()
-    return render_template('all_posts.html', posts=list(posts))
+    categories=db.categories.find()
+    subcategories=db.subcategories.find()
+    return render_template('all_posts.html', posts=list(posts),categories=categories,subcategories=list(subcategories))
 
 
 @bp.route("/post/<post_id>/")

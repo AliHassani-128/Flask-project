@@ -30,7 +30,8 @@ def post_list():
 
 @bp.route("/create-post/", methods=['GET', 'POST'])
 def create_post():
-    categoies=get_db().subcategory.find()
+    categoies=get_db().categories.find()
+    subcategories=get_db().subcategories.find()
     if request.method == 'POST':
         db = get_db()
         title = request.form.get('title')
@@ -40,7 +41,6 @@ def create_post():
         image = request.files.get('image')
         user = g.user
         status = True
-
         if image != '':
             image.save('myblog/static/media/uploads/posts/' + secure_filename(image.filename))
 
@@ -55,7 +55,7 @@ def create_post():
         else:
             flash('This post has already exists!')
 
-    return render_template('new_post.html',categories=categoies)
+    return render_template('new_post.html',categories=categoies,subcategories=subcategories)
 
 
 @bp.route("/edit-post/<post_id>")
