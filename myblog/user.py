@@ -47,7 +47,9 @@ def profile(user_id):
 @bp.route("/posts-list/<user_id>")
 def post_list(user_id):
     posts = get_db().posts.find({'user._id':ObjectId(user_id)})
-    return render_template('my_posts.html',posts=list(posts))
+    categories=get_db().categories.find()
+    subcategories=get_db().subcategories.find()
+    return render_template('my_posts.html',posts=list(posts),categories=categories,subcategories=list(subcategories))
 
 
 #for create a new post
