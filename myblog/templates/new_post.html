@@ -17,7 +17,7 @@
                 <textarea name="content" class="form-control data" id="" cols="30" rows="10" placeholder="محتوای مطلب"></textarea>
             </div>
             <div class="row mt-4 input">
-                <label for="categorys"> دسته بندی: </label>
+                <label for="categories"> دسته بندی: </label>
                 <select name="category" id="categories">
                     {% for category in categories%}
                     <option  value="{{ category.name }}">{{ category.name }}</option>
