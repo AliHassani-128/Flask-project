@@ -30,7 +30,7 @@ def post_list():
 
 @bp.route("/create-post/", methods=['GET', 'POST'])
 def create_post():
-    categoies=get_db().subcategory.find()
+    categoies = get_db().category.find()
     if request.method == 'POST':
         db = get_db()
         title = request.form.get('title')

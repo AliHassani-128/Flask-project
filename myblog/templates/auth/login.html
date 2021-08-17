@@ -1,5 +1,4 @@
-{% extends 'base.html' %}
-{% block content %}
+{% extends 'base.html' %} {% block content %}
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/login.css') }}">
 <div class="container-fluid">
     <div class="row">
@@ -9,11 +8,10 @@
     </div>
     {% with massages= get_flashed_messages(with_categories=true)%} {% if massages %} {% for category,massage in massages
     %}
-    <div class="text-center text-dark alert {{ category }}" id="#mydiv">
+    <div class="text-center text-dark alert {{ category }}" id="mydiv">
         {% if category=="danger" %} alert-danger {% endif %} {{ massage }}
     </div>
     {% endfor %} {% endif %} {% endwith %}
-
 
 
     <form method="post" action="{{ url_for('blog.login') }}" enctype="multipart/form-data">
@@ -44,7 +42,5 @@
 {% endblock %}
 
 {% block js %}
-<script>
-    $('#mydiv').delay(5000).hide();
-</script>
+<script src="{{ url_for('static',filename='js/alert.js') }}"></script>
 {% endblock %}
