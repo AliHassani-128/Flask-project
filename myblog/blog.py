@@ -156,3 +156,64 @@ def user_posts(user_id):
 def tag_posts(tag):
     posts = get_db().posts.find({'tag': {'$in':[tag]}})
     return render_template('all_posts.html', posts=list(posts))
+
+#like a post
+@bp.route('/like/',methods=['POST'])
+def like():
+
+    post_id = request.args.get('post_id')
+    user_id = request.args.get('user_id')
+
+    post = get_db().posts.find_one({'_id':ObjectId(post_id)})
+
+    if user_id :
+        if ObjectId(user_id) not in post['like']:
+
+            get_db().posts.update({ '_id':ObjectId(post_id)},{ '$push': { 'like': ObjectId(user_id)} })
+            likes= list(get_db().posts.aggregate(
+                                           [{'$match':{'_id':ObjectId(post_id)}},
+                                               {'$project':
+                                                 {'like':{'$size':'$like'}}}
+                                            ]))[0]
+            return json.dumps({'likes':likes['like'],'color':'red'})
+        else:
+            get_db().posts.update({'_id': ObjectId(post_id)}, {'$pull': {'like': ObjectId(user_id)}})
+            likes = list(get_db().posts.aggregate(
+                [{'$match': {'_id': ObjectId(post_id)}},
+                 {'$project':
+                      {'like': {'$size': '$like'}}}
+                 ]))[0]
+            return json.dumps({'likes': likes['like'],'color':'lightslategray'})
+    else:
+        return json.dumps({'error': 'برای لایک کردن پست ها باید کاربر سایت باشید'})
+
+#dislike a post
+@bp.route('/dislike/',methods=['POST'])
+def dislike():
+    post_id = request.args.get('post_id')
+    user_id = request.args.get('user_id')
+
+    post = get_db().posts.find_one({'_id': ObjectId(post_id)})
+
+    if user_id:
+        if ObjectId(user_id) not in post['dislike']:
+
+            get_db().posts.update({'_id': ObjectId(post_id)}, {'$push': {'dislike': ObjectId(user_id)}})
+            dislikes = list(get_db().posts.aggregate(
+                [{'$match': {'_id': ObjectId(post_id)}},
+                 {'$project':
+                      {'dislike': {'$size': '$dislike'}}}
+                 ]))[0]
+            return json.dumps({'dislikes': dislikes['dislike']})
+        else:
+            get_db().posts.update({'_id': ObjectId(post_id)}, {'$pull': {'dislike': ObjectId(user_id)}})
+            dislikes = list(get_db().posts.aggregate(
+                [{'$match': {'_id': ObjectId(post_id)}},
+                 {'$project':
+                      {'dislike': {'$size': '$dislike'}}}
+                 ]))[0]
+            return json.dumps({'dislikes': dislikes['dislike']})
+    else:
+        return json.dumps({'error': 'برای نپسندیدن پست ها باید کاربر سایت باشید'})
+
+
