@@ -1,11 +1,7 @@
-{% extends 'base.html' %}
-
-
-{% block content %}
-{% with massages= get_flashed_messages(with_categories=true)%} {% if massages %} {% for category,massage in massages %}
+{% extends 'base.html' %} {% block content %} {% with massages= get_flashed_messages(with_categories=true)%} {% if massages %} {% for category,massage in massages %}
 <div class="text-center text-dark alert {{ category }}" id="mydiv">
     {% if category=="alert-success" %} {% endif %} {{ massage }}
-</div>  {% endfor %} {% endif %} {% endwith %}
+</div> {% endfor %} {% endif %} {% endwith %}
 
 
 <form method="post" action="{{ url_for('user.create_post') }}" enctype="multipart/form-data">
@@ -18,25 +14,32 @@
 
             <div class="row mt-4 input">
 
-                <textarea name="content" class="form-control data" id="" cols="30" rows="10"
-                          placeholder="محتوای مطلب"></textarea>
+                <textarea name="content" class="form-control data" id="" cols="30" rows="10" placeholder="محتوای مطلب"></textarea>
             </div>
             <div class="row mt-4 input">
-                <select name="category" id="categorys">
-                    <option>--</option>
-                    {% for category in categories %}
-                    <option value="{{ category.id }}">{{category.name}}</option>
+                <label for="categorys"> دسته بندی: </label>
+                <select name="category" id="categories">
+                    {% for category in categories%}
+                    <option  value="{{ category.name }}">{{ category.name }}</option>
+
                     {% endfor %}
                 </select>
+                <button type="button" class="btn btn-info" id="category_btn">انتخاب</button>
             </div>
 
-            <div class="row mt-4 input" id="tags" style="max-width: 70%">
-                <input type="text" name="tags" id="all-tags" style="display: none">
-            </div>
+
+
+
             <div class="row mt-4 input">
 
                 <button id="add-tag" type="button" class="btn btn-info">افزودن تگ</button>
 
+
+                <select name="tag" id="tags">
+                    {% for tag in tags%}
+                    <option value="{{ tag.id }}">{{tag.name}}</option>
+                    {% endfor %}
+                </select>
 
             </div>
 
@@ -45,8 +48,7 @@
                     <h5 style="opacity: 0.5;margin-bottom: 2rem">تصویر برای پست خود بارگذاری کنید</h5>
                 </div>
                 <div class="col-12 text-center">
-                    <input id="image" name="image" type="file" class="btn rounded btn-secondary"
-                           style="align-items: center;width: 70%">
+                    <input id="image" name="image" type="file" class="btn rounded btn-secondary" style="align-items: center;width: 70%">
                 </div>
             </div>
             <div class="row d-flex justify-content-center mt-4">
@@ -59,10 +61,7 @@
         </div>
     </div>
 </form>
-{% endblock %}
-
-
-{% block js %}
+{% endblock %} {% block js %}
 <script src="{{ url_for('static' ,filename='js/new_tag.js') }}"></script>
 <script src="{{ url_for('static',filename='js/alert.js') }}"></script>
 {% endblock %}

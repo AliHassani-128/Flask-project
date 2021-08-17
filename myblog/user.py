@@ -54,7 +54,8 @@ def post_list(user_id):
 @bp.route("/create-post/",methods=['GET','POST'])
 @login_required
 def create_post():
-    categories = get_db().category.find()
+    categoies=get_db().categories.find()
+    subcategories=get_db().subcategories.find()
     if request.method == 'POST':
 
         db = get_db()
@@ -83,7 +84,7 @@ def create_post():
             return render_template('new_post.html', categories=categories)
 
 
-    return render_template('new_post.html',categories=categories)
+    return render_template('new_post.html',categories=categoies,subcategories=subcategories)
 
 
 #for edit a post (just title,content,tags) can be change

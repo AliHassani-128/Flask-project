@@ -115,9 +115,51 @@
     <div class="row navbar " style="direction: rtl;width: 100vw;height: 5px;margin-top:0px">
         <div class="col-12 nav-item bg-primary text-justify ">
 
-            <button class="btn">
-                <a href="{{ url_for('api.list_categorys') }}" class="text-white text-decoration-none"> دسته بندی ها </a>
+            <button class="btn text-white" data-toggle="modal" data-target="#myModal">دسته بندی
+{#                <a href="{{ url_for('api.list_categorys') }}" class="text-white text-decoration-none"> دسته بندی ها </a>#}
             </button>
+             <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog text-center">
+                <div class="modal-content">
+                    <div class="modal-header">
+                            <button type="button" class="close bg-danger" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        {% for category in categories  %}
+
+
+
+
+                            <button class="btn"data-toggle="modal" data-target="#myModal{{category._id}}">{{category.name }}</button><br>
+                            <div class="modal fade" id="myModal{{category._id}}"  role="dialog" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog" id="#myModal{{category._id }}" >
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">بستن</button>
+                                    </div>
+                                    <div class="modal-body bg-dark" >
+
+
+                                        {% for sub in subcategories %}
+                                            {%  if sub.category_id==category._id %}
+                                        <a href="" id="{{ sub.category_id }}">{{ sub.name }}</a><br>
+                                            {% endif %}
+
+                                        {% endfor %}
+
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        {% endfor %}
+
+
+                     </div>
+                </div>
+
+            </div>
+  </div>
+
             <button class="btn">
                 <a href="{{ url_for('api.list_tags') }}" class="text-white text-decoration-none"> تگ ها</a>
             </button>
