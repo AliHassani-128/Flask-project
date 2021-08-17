@@ -1,18 +1,19 @@
 {% extends 'index.html' %}
 
+
+
 {% block posts %}
-{% with massages= get_flashed_messages(with_categories=true)%} {% if massages %} {% for category,massage in massages %}
-<div class="text-center text-dark alert {{ category }}" id="mydiv">
-    {% if category=="alert-success" %} {% endif %} {{ massage }}
-</div>  {% endfor %} {% endif %} {% endwith %}
+    {% with massages= get_flashed_messages(with_categories=true)%} {% if massages %} {% for category,massage in massages %}
+    <div class="text-center text-dark alert {{ category }}" id="mydiv">
+        {% if category=="alert-success" %}  {% endif %} {{ massage }} </div>  {% endfor %} {% endif %} {% endwith %}
 
 
 {% if posts %}
 <div class="container_fluid">
     <div id="posts" class="row " style="min-width: 100%">
         {% for post in posts %}
-        {% if post.status %}
-        <div class="col-4 bg-white mt-2" style="">
+
+        <div class="col-4 bg-white mt-2">
             <div class="card" style="height:100% ">
                 <div class="card-header">
 
@@ -26,7 +27,6 @@
                     <div class="row" style="direction: rtl">
                         <strong><p>{{ post.content[:35] }}...</p></strong><br>
                     </div>
-
                     <div class="row justify-content-between">
                         <div class="col-4">
                             <button class="btn btn-info">
@@ -35,7 +35,7 @@
                                    href="{{ url_for('blog.post' ,post_id=post._id|string)}}">بیشتر</a>
                             </button>
                         </div>
-                        <div class="col-auto d-none d-sm-inline">
+                        <div class="col-auto">
 
                             <button class="btn btn-info" style="direction: rtl">
                                 <a class="text-white"
@@ -44,13 +44,35 @@
                         </div>
 
                     </div>
+                    <div class="row mt-4">
+
+                       <div class="col-auto">
+                            {% if post.status %}
+                            <button class="btn btn-success text-white" style="direction: rtl">
+
+                              وضعیت پست : فعال
+
+                                </button>
+                         {% else %}
+                         <button class="btn btn-danger text-white" style="direction: rtl">
+
+                              وضعیت پست : غیر فعال
+
+                                </button>
+
+
+                         {% endif %}
+
+                        </div>
+                    </div>
 
 
                 </div>
             </div>
         </div>
-        {% endif %}
+
         {% endfor %}
+
 
 
     </div>

@@ -1,5 +1,15 @@
 {% extends 'base.html' %}
+
+
+
 {% block content %}
+{% with massages= get_flashed_messages(with_categories=true)%} {% if massages %} {% for category,massage in massages %}
+<div class="text-center text-dark alert {{ category }}" id="mydiv">
+    {% if category=="alert-success" %} {% endif %} {{ massage }}
+</div>  {% endfor %} {% endif %} {% endwith %}
+
+
+
 <form method="post" action="{{ url_for('user.create_post') }}" enctype="multipart/form-data">
     <div class="d-flex justify-content-center mt-5" style="direction: rtl">
         <div class="console">
@@ -10,35 +20,31 @@
 
             <div class="row mt-4 input">
 
-                <textarea name="content" class="form-control data" id="" cols="30" rows="10"
-                          placeholder="محتوای مطلب"></textarea>
+                <textarea name="content" class="form-control data" id="" cols="30" rows="10" placeholder="محتوای مطلب" ></textarea>
             </div>
-            <div class="row mt-4 input">
-            <label for="categorys"> دسته بندی: </label>
-                <select name="category" id="categories" >
+                 <div class="row mt-4 input">
+                <label for="categories"> دسته بندی: </label>
+                <select name="category" id="categories">
                     {% for category in categories%}
                     <option  value="{{ category.name }}">{{ category.name }}</option>
 
                     {% endfor %}
                 </select>
-                <button type="button" class="btn btn-info" id="category_btn" >انتخاب</button>
+                <button type="button" class="btn btn-info" id="category_btn">انتخاب</button>
             </div>
 
 
-
-
+            <div class="row mt-4 input" id="tags" style="max-width: 70%">
+                <input type="text" name="tags" id="all-tags" style="display: none">
+            </div>
             <div class="row mt-4 input">
 
+                <button id="add-tag" type="button" class="btn btn-info">افزودن تگ</button>
 
-                <select name="tag" id="tags">
-                    {% for tag in tags%}
-                    <option value="{{ tag.id }}">{{tag.name}}</option>
-                    {% endfor %}
-                </select>
 
             </div>
 
-            <div class="row mt-4 input" style="border-radius: 10px;border:1px solid lightgray;height: 150px">
+            <div class="row mt-4 input" style="border-radius: 10px;border:1px solid lightgray;height: auto">
                 <div class="col-12 text-center">
                     <h5 style="opacity: 0.5;margin-bottom: 2rem">تصویر برای پست خود بارگذاری کنید</h5>
                 </div>
@@ -49,7 +55,7 @@
             </div>
             <div class="row d-flex justify-content-center mt-4">
 
-                <button id="newUser" type="submit" class="btn btn-info rounded ml-3">ثبت</button>
+                <button id="newPost" type="submit" class="btn btn-info rounded ml-3">ثبت</button>
                 <button type="button" class="btn btn-warning rounded text-white">
                     <a href="{{ url_for('blog.home') }}" class="text-white">بازگشت</a>
                 </button>
@@ -59,3 +65,8 @@
 </form>
 {% endblock %}
 
+
+{% block js %}
+<script src="{{ url_for('static' ,filename='js/new_tag.js') }}"></script>
+<script src="{{ url_for('static',filename='js/alert.js') }}"></script>
+{% endblock %}
