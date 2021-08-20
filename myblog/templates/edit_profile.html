@@ -1,65 +1,69 @@
 {% extends 'base.html' %}
 {% block content %}
 {% if user %}
-<div class="row d-flex justify-content-center">
-<form method="post"
-      action="{{ url_for('user.profile',user_id=user._id|string) }}"
-      enctype="multipart/form-data">
-    <h3 class="d-flex justify-content-end mt-3" style="color: gray">: ویرایش پروفایل
-    </h3>
-    <div class="row d-block">
-        {% if user.image %}
-        <div class="row d-flex justify-content-center">
-            <img style="border-radius: 50%;max-height: 100px;max-width: 200px" src="{{ url_for('static', filename='media/uploads/profiles/' + user.image) }}"
-             alt="">
-        </div>
+<div class=" row d-flex justify-content-center">
+    <div class="col-4 mt-4 rounded"
+         style="background: #0f6674">
+        <form method="post"
+              action="{{ url_for('user.profile',user_id=user._id|string) }}"
+              enctype="multipart/form-data">
+            <h3 class="d-flex justify-content-end mt-3" style="color: white">: ویرایش پروفایل
+            </h3>
+            <div class="row d-block">
+                {% if user.image %}
+                <div class="row d-flex justify-content-center mt-3">
+                    <img style="border-radius: 50%;max-height: 100px;max-width: 200px"
+                         src="{{ url_for('static', filename='media/uploads/profiles/' + user.image) }}"
+                         alt="">
+                </div>
 
-        <div class="row mt-4">
-            <button class="btn btn-info" id="edit-image" type="button">ویرایش عکس</button>
-        </div>
+                <div class="row mt-4 justify-content-center">
+                    <button class="btn btn-info btn-outline-light" id="edit-image" type="button">ویرایش عکس</button>
+                </div>
 
-        <div class="row mt-4" id="set-image"></div>
-        {% else %}
-        <div class="row mt-4 input" style="border-radius: 10px;border:1px solid lightgray;height: 150px">
-            <div class="col-12 text-center">
-                <h5 style="opacity: 0.5;margin-bottom: 2rem">عکس پروفایل خود را انتخاب کنید</h5>
+                <div class="row mt-4" id="set-image"></div>
+                {% else %}
+                <div class="row mt-4 input" style="border-radius: 10px;border:1px solid lightgray;height: 150px">
+                    <div class="col-12 text-center">
+                        <h5 style="opacity: 0.5;margin-bottom: 2rem">عکس پروفایل خود را انتخاب کنید</h5>
+                    </div>
+                    <div class="col-12 text-center">
+                        <input id="image" name="image" type="file" class="btn rounded btn-secondary"
+                               style="align-items: center;width: 70%">
+                    </div>
+                </div>
+
+                {% endif %}
             </div>
-            <div class="col-12 text-center">
-                <input id="image" name="image" type="file" class="btn rounded btn-secondary"
-                       style="align-items: center;width: 70%">
+            <div class="row mt-4 input d-flex justify-content-center alert-warning rounded">
+
+                <h4 class="text-dark">{{user.username}} : نام کاربری </h4>
             </div>
-        </div>
 
-        {% endif %}
+            <div class="row mt-4 input d-flex justify-content-end">
+                <label class="text-white" for="email">: ایمیل</label>
+                <input id="email" type="email" class="form-control data" name="email" value="{{user.email}}">
+            </div>
+            <div class="row mt-4 input d-flex justify-content-end">
+                <label class="text-white" for="phone">: شماره همراه </label>
+                <input id="phone" type="text" class="form-control data" name="phone" value="{{user.phone}}">
+            </div>
+
+
+            <div class="row d-flex justify-content-center mt-4 mb-3">
+                <button type="button" class="btn btn-warning rounded"
+                ><a class="text-white" href="{{url_for('blog.home')}}">بازگشت</a>
+                </button>
+                <button id="edit" type="submit"
+                        class="btn btn-info rounded ml-3">ثبت
+                </button>
+
+
+            </div>
+
+
+        </form>
     </div>
-    <div class="row mt-4 input">
-
-        <h4>{{user.username}}: نام کاربری </h4>
-    </div>
-
-    <div class="row mt-4 input">
-        <label for="email">ایمیل:</label>
-        <input id="email" type="email" class="form-control data" name="email" value="{{user.email}}">
-    </div>
-    <div class="row mt-4 input">
-        <label for="phone">:شماره همراه</label>
-        <input id="phone" type="text" class="form-control data" name="phone" value="{{user.phone}}">
-    </div>
-
-
-    <div class="row d-flex justify-content-center mt-4">
-
-        <button id="edit" type="submit"
-                class="btn btn-info rounded ml-3">ثبت
-        </button>
-        <button type="button" class="btn btn-warning rounded text-white"
-                ><a href="{{url_for('blog.home')}}">بازگشت</a>
-        </button>
-
-    </div>
-
-
-</form>
 </div>
 {% else %}
 <p>user not found</p>
@@ -67,7 +71,7 @@
 {% endblock %}
 {% block js %}
 <script>
-    $('#edit-image').click(function (){
+    $('#edit-image').click(function () {
         let div = $('<div className="row text-center"></div>').appendTo('#set-image');
         let file = $('<input id="image" name="image" type="file" class="btn rounded btn-secondary" style="align-items: center;width: 70%">').appendTo(div);
 

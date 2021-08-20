@@ -1,11 +1,11 @@
 {% extends 'index.html' %}
 
 
-
 {% block posts %}
-    {% with massages= get_flashed_messages(with_categories=true)%} {% if massages %} {% for category,massage in massages %}
-    <div class="text-center text-dark alert {{ category }}" id="mydiv">
-        {% if category=="alert-success" %}  {% endif %} {{ massage }} </div>  {% endfor %} {% endif %} {% endwith %}
+{% with massages= get_flashed_messages(with_categories=true)%} {% if massages %} {% for category,massage in massages %}
+<div class="text-center text-dark alert {{ category }}" id="mydiv">
+    {% if category=="alert-success" %} {% endif %} {{ massage }}
+</div>  {% endfor %} {% endif %} {% endwith %}
 
 
 {% if posts %}
@@ -46,22 +46,22 @@
                     </div>
                     <div class="row mt-4">
 
-                       <div class="col-auto">
+                        <div class="col-auto">
                             {% if post.status %}
                             <button class="btn btn-success text-white" style="direction: rtl">
 
-                              وضعیت پست : فعال
+                                وضعیت پست : فعال
 
-                                </button>
-                         {% else %}
-                         <button class="btn btn-danger text-white" style="direction: rtl">
+                            </button>
+                            {% else %}
+                            <button class="btn btn-danger text-white" style="direction: rtl">
 
-                              وضعیت پست : غیر فعال
+                                وضعیت پست : غیر فعال
 
-                                </button>
+                            </button>
 
 
-                         {% endif %}
+                            {% endif %}
 
                         </div>
                     </div>
@@ -72,7 +72,6 @@
         </div>
 
         {% endfor %}
-
 
 
     </div>

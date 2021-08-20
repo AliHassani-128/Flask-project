@@ -40,24 +40,23 @@ def login_required(view):
     return wrapped_view
 
 
-
-#Home page of site that show all posts
+# Home page of site that show all posts
 @bp.route("/")
 def home():
     db = get_db()
     posts = db.posts.find()
-    categories=db.categories.find()
-    subcategories=db.subcategories.find()
-    return render_template('all_posts.html', posts=list(posts),categories=categories,subcategories=list(subcategories))
+    categories = db.categories.find()
+    subcategories = db.subcategories.find()
+    return render_template('all_posts.html', posts=list(posts), categories=categories,
+                           subcategories=list(subcategories))
 
 
-#for showing all detail of one post
+# for showing all detail of one post
 @bp.route("/post/<post_id>/")
 def post(post_id):
     db = get_db()
     post = db.posts.find({'_id': ObjectId(post_id)})
     return render_template('detail_post.html', posts=list(post))
-
 
 
 @bp.route("/category-posts/<category_id>/")
@@ -70,8 +69,7 @@ def tag(tag_id):
     return render_template('')
 
 
-
-#for register a new user to site
+# for register a new user to site
 @bp.route("/register", methods=("GET", "POST"))
 def register():
     if request.method == "POST":
@@ -90,7 +88,6 @@ def register():
             error = 'عکس برای پنل کاربری خود انتخاب نکردید'
         db = get_db()
 
-
         if not username:
             error = "نام کاربری الزامی است"
         elif not password:
@@ -104,14 +101,15 @@ def register():
             user = {'username': username, 'password': generate_password_hash(password),
                     'email': email, 'phone': phone, 'image': image.filename}
             db.user.insert_one(user)
-            flash('پنل کاربری شما با موفقیت ثبت شد','alert-success')
+            flash('پنل کاربری شما با موفقیت ثبت شد', 'alert-success')
             return redirect(url_for("blog.login"))
         else:
             flash(error, "alert-danger")
 
     return render_template("auth/register.html")
 
-#for login users who were registered
+
+# for login users who were registered
 @bp.route("/login", methods=("GET", "POST"))
 def login():
     """Log in a registered user by adding the user id to the session."""
@@ -146,38 +144,39 @@ def login():
 
     return render_template("auth/login.html")
 
-#for shoiwng all posts that a user with id (user_id) was written
+
+# for shoiwng all posts that a user with id (user_id) was written
 @bp.route('/user-posts/<user_id>/')
 def user_posts(user_id):
     posts = get_db().posts.find({'user._id': ObjectId(user_id)})
     return render_template('all_posts.html', posts=list(posts))
 
 
-#for shoiwng all posts that are with a common tag
+# for shoiwng all posts that are with a common tag
 @bp.route('/tag-posts/<tag>/')
 def tag_posts(tag):
-    posts = get_db().posts.find({'tag': {'$in':[tag]}})
+    posts = get_db().posts.find({'tag': {'$in': [tag]}})
     return render_template('all_posts.html', posts=list(posts))
 
-#like a post
-@bp.route('/like/',methods=['POST'])
-def like():
 
+# like a post
+@bp.route('/like/', methods=['POST'])
+def like():
     post_id = request.args.get('post_id')
     user_id = request.args.get('user_id')
 
-    post = get_db().posts.find_one({'_id':ObjectId(post_id)})
+    post = get_db().posts.find_one({'_id': ObjectId(post_id)})
 
-    if user_id :
+    if user_id:
         if ObjectId(user_id) not in post['like']:
 
-            get_db().posts.update({ '_id':ObjectId(post_id)},{ '$push': { 'like': ObjectId(user_id)} })
-            likes= list(get_db().posts.aggregate(
-                                           [{'$match':{'_id':ObjectId(post_id)}},
-                                               {'$project':
-                                                 {'like':{'$size':'$like'}}}
-                                            ]))[0]
-            return json.dumps({'likes':likes['like'],'color':'red'})
+            get_db().posts.update({'_id': ObjectId(post_id)}, {'$push': {'like': ObjectId(user_id)}})
+            likes = list(get_db().posts.aggregate(
+                [{'$match': {'_id': ObjectId(post_id)}},
+                 {'$project':
+                      {'like': {'$size': '$like'}}}
+                 ]))[0]
+            return json.dumps({'likes': likes['like'], 'color': 'red'})
         else:
             get_db().posts.update({'_id': ObjectId(post_id)}, {'$pull': {'like': ObjectId(user_id)}})
             likes = list(get_db().posts.aggregate(
@@ -185,12 +184,13 @@ def like():
                  {'$project':
                       {'like': {'$size': '$like'}}}
                  ]))[0]
-            return json.dumps({'likes': likes['like'],'color':'lightslategray'})
+            return json.dumps({'likes': likes['like'], 'color': 'lightslategray'})
     else:
         return json.dumps({'error': 'برای لایک کردن پست ها باید کاربر سایت باشید'})
 
-#dislike a post
-@bp.route('/dislike/',methods=['POST'])
+
+# dislike a post
+@bp.route('/dislike/', methods=['POST'])
 def dislike():
     post_id = request.args.get('post_id')
     user_id = request.args.get('user_id')
@@ -217,5 +217,3 @@ def dislike():
             return json.dumps({'dislikes': dislikes['dislike']})
     else:
         return json.dumps({'error': 'برای نپسندیدن پست ها باید کاربر سایت باشید'})
-
-

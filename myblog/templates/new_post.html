@@ -1,13 +1,11 @@
 {% extends 'base.html' %}
 
 
-
 {% block content %}
 {% with massages= get_flashed_messages(with_categories=true)%} {% if massages %} {% for category,massage in massages %}
 <div class="text-center text-dark alert {{ category }}" id="mydiv">
     {% if category=="alert-success" %} {% endif %} {{ massage }}
 </div>  {% endfor %} {% endif %} {% endwith %}
-
 
 
 <form method="post" action="{{ url_for('user.create_post') }}" enctype="multipart/form-data">
@@ -20,13 +18,14 @@
 
             <div class="row mt-4 input">
 
-                <textarea name="content" class="form-control data" id="" cols="30" rows="10" placeholder="محتوای مطلب" ></textarea>
+                <textarea name="content" class="form-control data" id="" cols="30" rows="10"
+                          placeholder="محتوای مطلب"></textarea>
             </div>
-                 <div class="row mt-4 input">
+            <div class="row mt-4 input">
                 <label for="categories"> دسته بندی: </label>
                 <select name="category" id="categories">
                     {% for category in categories%}
-                    <option  value="{{ category.name }}">{{ category.name }}</option>
+                    <option value="{{ category.name }}">{{ category.name }}</option>
 
                     {% endfor %}
                 </select>
