@@ -1,6 +1,4 @@
-{% extends 'base.html' %}
-
-{% block content %}
+{% extends 'base.html' %} {% block content %}
 <div class="row border-bottom" style="background: white;height: auto;margin-top: 2rem">
     <div class="col-6 ml-6">
 
@@ -27,11 +25,7 @@
 
                             <div class="row mb-3 d-flex justify-content-center">
                                 {% if g.user.image %}
-                                <img style="border-radius: 50%;max-height: 100px;max-width: 200px"
-                                     src="{{ url_for('static', filename='media/uploads/profiles/' + g.user.image) }}"
-                                     alt="">
-
-                                {% endif %}
+                                <img style="border-radius: 50%;max-height: 100px;max-width: 200px" src="{{ url_for('static', filename='media/uploads/profiles/' + g.user.image) }}" alt=""> {% endif %}
                             </div>
 
                             <div class="navbar alert-warning rounded mb-3">
@@ -72,10 +66,7 @@
 
             <button class="btn btn-primary">
                 <a href="{{ url_for('blog.register') }}" class="text-white">ثبت نام</a>
-            </button>
-
-
-            {% endif %}
+            </button> {% endif %}
             <button class="btn ">
                 <i class="fa fa-search"></i>
             </button>
@@ -98,14 +89,11 @@
 
 
                 </a></h1>
-            </button>
-            {% if g.user.image %}
+            </button> {% if g.user.image %}
             <div class="col-2">
 
 
-                <img style="border-radius: 50%;max-height: 70px;width: 70px"
-                     src="{{ url_for('static', filename='media/uploads/profiles/' + g.user.image) }}"
-                     alt="">
+                <img style="border-radius: 50%;max-height: 70px;width: 70px" src="{{ url_for('static', filename='media/uploads/profiles/' + g.user.image) }}" alt="">
 
             </div>
             {% endif %}
@@ -134,28 +122,20 @@
                             {% for category in categories %}
 
 
-                            <button class="btn" data-toggle="modal" data-target="#myModal{{category._id}}">
-                                {{category.name }}
-                            </button>
-                            <br>
-                            <div class="modal fade" id="myModal{{category._id}}" role="dialog" tabindex="-1"
-                                 aria-hidden="true">
+
+
+                            <button class="btn" data-toggle="modal" data-target="#myModal{{category._id}}">{{category.name }}</button><br>
+                            <div class="modal fade" id="myModal{{category._id}}" role="dialog" tabindex="-1" aria-hidden="true">
                                 <div class="modal-dialog" id="#myModal{{category._id }}">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                                                بستن
-                                            </button>
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">بستن</button>
                                         </div>
-                                        <div class="modal-body bg-dark">
+                                        <div class="modal-body bg-dark text-center">
 
 
-                                            {% for sub in subcategories %}
-                                            {% if sub.category_id==category._id %}
-                                            <a href="" id="{{ sub.category_id }}">{{ sub.name }}</a><br>
-                                            {% endif %}
-
-                                            {% endfor %}
+                                            {% for sub in subcategories %} {% if sub.category_id==category._id %} subcategory_id=sub._id
+                                            <a href="{{ url_for('blog.category',subcategory_id=sub._id) }}" id="{{ sub._id }}" style="margin-left:130px">{{ sub.name }} </a><br> {% endif %} {% endfor %}
 
                                         </div>
                                     </div>
@@ -179,23 +159,6 @@
     </div>
 
 </div>
-{% endblock %}
-
-{% block newPost %}
-{% endblock %}
-
-
-{% block posts %}
-{% endblock %}
-
-
-{% block detail_post %}
-{% endblock %}
-
-
-{% endblock %}
-
-
-{% block js %}
+{% endblock %} {% block newPost %} {% endblock %} {% block posts %} {% endblock %} {% block detail_post %} {% endblock %} {% endblock %} {% block js %}
 <script src="{{ url_for('static', filename='js/index.js') }}"></script>
 {% endblock %}

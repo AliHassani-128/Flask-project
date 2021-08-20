@@ -1,5 +1,4 @@
 import json
-
 from bson import ObjectId
 from flask import Blueprint, session, jsonify
 from flask import flash
