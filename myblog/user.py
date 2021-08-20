@@ -62,7 +62,7 @@ def create_post():
         title = request.form.get('title')
         content = request.form.get('content')
         category = request.form.get('category')
-        tag = json.loads(request.form.get('tags'))
+        tags = json.loads(request.form.get('tags'))
         image = request.files.get('image')
         user = g.user
         status = True
@@ -76,21 +76,23 @@ def create_post():
         if post is None:
             db.posts.insert_one({'user': user, 'title': title, 'content': content,
                                 'category': category,
-                                 'tag': tag, 'image': image.filename,
+                                 'tag': tags, 'image': image.filename,
                                  'status': status, 'like': [], 'dislike': []})
+            for tag in tags:
+                db.tag.insert_one({"name": tag})
 
             return redirect(url_for('blog.home'))
         else:
             flash('پست با این عنوان موجوداست عنوان دیگری انتخاب کنید', 'alert-danger')
-            return render_template('new_post.html')
+            return render_template('new_post.html', categories=categoies)
 
-    return render_template('new_post.html', categories=categoies, subcategories=list(subcategories))
+    return render_template('new_post.html', categories=categoies, subcategories=subcategories,)
+
 
 # for edit a post (just title,content,tags) can be change
-
-
 @bp.route("/edit-post/<post_id>", methods=['POST'])
 def edit_post(post_id):
+
     title = request.form.get('title')
     content = request.form.get('content')
     tags = json.loads(request.form.get('tags'))

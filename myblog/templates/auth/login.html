@@ -6,8 +6,7 @@
             <h1 class="text-white">ورود</h1>
         </div>
     </div>
-    {% with massages= get_flashed_messages(with_categories=true)%} {% if massages %} {% for category,massage in massages
-    %}
+    {% with massages= get_flashed_messages(with_categories=true)%} {% if massages %} {% for category,massage in massages %}
     <div class="text-center text-dark alert {{ category }}" id="mydiv">
         {% if category=="danger" %} alert-danger {% endif %} {{ massage }}
     </div>
@@ -39,8 +38,6 @@
 </div>
 
 
-{% endblock %}
-
-{% block js %}
+{% endblock %} {% block js %}
 <script src="{{ url_for('static',filename='js/alert.js') }}"></script>
 {% endblock %}

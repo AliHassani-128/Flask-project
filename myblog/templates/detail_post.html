@@ -1,22 +1,16 @@
-{% extends 'index.html' %}
-
-
-{% block detail_post %}
-
-{% if posts %}
-{% for post in posts %}
+{% extends 'index.html' %} {% block detail_post %} {% if posts %} {% for post in posts %}
 
 
 <div class="container d-flex justify-content-center">
     <div class="col-6 bg-white">
         <div class="card" style="height:100% ">
             <div class="card-header">
-                <img class="rounded"
-                     src="{{ url_for('static', filename='media/uploads/posts/' + post.image) }}" style="width:100%">
+                <img class="rounded" src="{{ url_for('static', filename='media/uploads/posts/' + post.image) }}" style="width:100%">
             </div>
             <div class="card-body">
                 <div class="row" style="direction: rtl">
-                    <h3>{{post.title}}</h3></div>
+                    <h3>{{post.title}}</h3>
+                </div>
                 <div class="row" style="direction: rtl">
                     <strong><p>{{ post.content }}</p></strong><br>
                 </div>
@@ -29,12 +23,9 @@
                     </div>
                     <div class="col-auto">
                         {% if g.user._id|string == post.user._id|string %}
-                        <button class="btn btn-secondary" style="direction: rtl" data-toggle="modal"
-                                data-target="#edit-post">
+                        <button class="btn btn-secondary" style="direction: rtl" data-toggle="modal" data-target="#edit-post">
                             ویرایش پست
-                        </button>
-
-                        {% endif %}
+                        </button> {% endif %}
                     </div>
 
 
@@ -63,14 +54,11 @@
                         </button>
                     </div>
                     <div class="row justify-content-end mb-3">
-                        <button class="btn btn-light">Tags:</button>
-                        {% for tag in post.tag %}
+                        <button class="btn btn-light">Tags:</button> {% for tag in post.tag %}
                         <button class="btn btn-light btn-outline-success">
                             <a class="text-dark"
                                href="{{ url_for('blog.tag_posts' ,tag=tag) }}">{{ tag }}</a>
-                        </button>
-
-                        {% endfor %}
+                        </button> {% endfor %}
                     </div>
                 </div>
 
@@ -88,46 +76,33 @@
         <div class="modal-content">
             <div class="modal-body">
                 <div class="row d-flex justify-content-end">
-                    <button class="btn btn-danger" id="delete-post"
-                            onclick="delete_post('{{post._id}}')">حذف پست
-                    </button>
-                    {% if post.status %}
-                    <button class="btn btn-warning ml-3" id="inactive-post"
-                            onclick="post_deactive('{{post._id}}')">غیر فعال کردن پست
-                    </button>
-                    {% else %}
-                    <button class="btn btn-success ml-3" id="active-post"
-                            onclick="post_active('{{post._id}}')"> فعال کردن پست
-                    </button>
-                    {% endif %}
+                    <button class="btn btn-danger" id="delete-post" onclick="delete_post('{{post._id}}')">حذف پست
+                    </button> {% if post.status %}
+                    <button class="btn btn-warning ml-3" id="inactive-post" onclick="post_deactive('{{post._id}}')">غیر فعال کردن پست
+                    </button> {% else %}
+                    <button class="btn btn-success ml-3" id="active-post" onclick="post_active('{{post._id}}')"> فعال کردن پست
+                    </button> {% endif %}
 
                 </div>
 
 
-                <form method="post"
-                      action="{{ url_for('user.edit_post',post_id=post._id|string) }}"
-                      enctype="multipart/form-data">
-                    <h3 class="d-flex justify-content-end mt-3" style="color: gray">: ویرایش متن
-                        پست </h3>
+                <form method="post" action="{{ url_for('user.edit_post',post_id=post._id|string) }}" enctype="multipart/form-data">
+                    <h3 class="d-flex justify-content-end mt-3" style="color: gray">: ویرایش متن پست </h3>
                     <div class="d-flex justify-content-center mt-1" style="direction: rtl">
                         <div class="console">
                             <div class="row mt-4 input">
-                                <input type="text" class="form-control data" name="title"
-                                       value="{{post.title}}">
+                                <input type="text" class="form-control data" name="title" value="{{post.title}}">
                             </div>
 
 
                             <div class="row mt-4 input">
 
-                                                            <textarea name="content" class="form-control data" id=""
-                                                                      cols="30" rows="10"
-                                                            >{{post.content}}</textarea>
+                                <textarea name="content" class="form-control data" id="" cols="30" rows="10">{{post.content}}</textarea>
                             </div>
 
 
                             <div class="row mt-4 input" id="tags" style="max-width: 70%">
-                                <input type="text" name="tags" id="all-tags"
-                                       style="display: none">
+                                <input type="text" name="tags" id="all-tags" style="display: none">
                             </div>
                             <div class="row mt-4 input">
 
@@ -141,11 +116,9 @@
 
                             <div class="row d-flex justify-content-center mt-4">
 
-                                <button id="edit" type="submit"
-                                        class="btn btn-info rounded ml-3">ثبت
+                                <button id="edit" type="submit" class="btn btn-info rounded ml-3">ثبت
                                 </button>
-                                <button type="button" class="btn btn-warning rounded text-white"
-                                        data-dismiss="modal">بازگشت
+                                <button type="button" class="btn btn-warning rounded text-white" data-dismiss="modal">بازگشت
                                 </button>
 
                             </div>
@@ -161,13 +134,7 @@
     </div>
 
 </div>
-{% endfor %}
-{% endif %}
-
-
-{% endblock %}
-
-{% block js %}
+{% endfor %} {% endif %} {% endblock %} {% block js %}
 <script src="{{ url_for('static',filename='js/new_tag.js') }}"></script>
 <script src="{{ url_for('static',filename='js/like.js') }}"></script>
 <script src="{{ url_for('static',filename='js/edit.js') }}"></script>
