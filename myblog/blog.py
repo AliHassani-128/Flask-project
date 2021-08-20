@@ -60,9 +60,14 @@ def post(post_id):
 
 
 
-@bp.route("/category-posts/<category_id>/")
-def category(category_id):
-    return render_template('')
+@bp.route("/category-posts/<subcategory_id>/")
+def category(subcategory_id):
+    db=get_db()
+    categories=db.categories.find()
+    subcategories=db.subcategories.find()
+    posts=db.post.find({"category":subcategory_id})
+
+    return render_template('all_posts.html',categories=categories,subcategories=list(subcategories),posts=list(posts))
 
 
 @bp.route("/tag-posts/<tag_id>")

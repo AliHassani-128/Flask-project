@@ -83,10 +83,10 @@ def create_post():
             return redirect(url_for('blog.home'))
         else:
             flash('پست با این عنوان موجوداست عنوان دیگری انتخاب کنید','alert-danger')
-            return render_template('new_post.html', categories=categories)
+            return render_template('new_post.html')
 
 
-    return render_template('new_post.html',categories=categoies,subcategories=subcategories)
+    return render_template('new_post.html',categories=categoies,subcategories=list(subcategories))
 
 
 #for edit a post (just title,content,tags) can be change

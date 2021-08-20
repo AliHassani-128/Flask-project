@@ -61,7 +61,7 @@ def list_categorys():
     categories = get_db().categories.find()
     subcategories = get_db().subcategories.find()
 
-    return render_template('test.html', categories=categories, subcategories=subcategories)
+    return render_template('')
 
 
 @bp.route("/tags-list/")

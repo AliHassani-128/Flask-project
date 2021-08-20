@@ -137,12 +137,13 @@
                                     <div class="modal-header">
                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">بستن</button>
                                     </div>
-                                    <div class="modal-body bg-dark" >
+                                    <div class="modal-body bg-dark text-center" >
 
 
                                         {% for sub in subcategories %}
                                             {%  if sub.category_id==category._id %}
-                                        <a href="" id="{{ sub.category_id }}">{{ sub.name }}</a><br>
+                                                subcategory_id=sub._id
+                                        <a href={{url_for('blog.category',subcategory_id=sub._id)}} id="{{ sub._id }}" style="margin-left:130px" >{{ sub.name }} </a><br>
                                             {% endif %}
 
                                         {% endfor %}
