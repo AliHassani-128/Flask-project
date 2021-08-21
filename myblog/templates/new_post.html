@@ -20,15 +20,17 @@
                           placeholder="محتوای مطلب"></textarea>
             </div>
             <div class="row mt-4">
-                <ul><li><span class="caret ">دسته بندی</span>
+                <ul id="myUL"><li><span class="caret border btn bg-info" >دسته بندی</span>
                     <ul class="nested">
                         {% for cat in categories %}
                             {% if cat.category_id==Null %}
-                                <li><span class="caret">{{ cat.name }}</span>
+                                <li class="category  bg-dark"><span class="caret   text-info">{{ cat.name }}</span>
                                 <ul class="nested">
                                     {% for category in categories %}
                                     {% if cat._id==category.category_id %}
-                                        <li>{{ category.name }}</li>
+                                        <ul>
+                                        <li class="text-white"><button class="btn text-white cat_btn" value="{{ category._id }}">{{ category.name }}</button></li>
+                                        </ul>
                                         {% endif %}
                                 {% endfor %}
                                 </ul>
@@ -40,6 +42,9 @@
                     </ul>
                 </li></ul>
 
+            </div>
+         <div class="row mt-4 input" id="category" style="max-width: 70%">
+                <input type="text" name="category" id="select_category" style="display: none">
             </div>
 
             <div class="row d-flex justify-content-start mt-4">
