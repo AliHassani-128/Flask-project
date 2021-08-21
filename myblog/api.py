@@ -1,5 +1,4 @@
 import json
-
 from bson import ObjectId
 from flask import Blueprint, session, jsonify
 from flask import flash
@@ -61,7 +60,7 @@ def list_categorys():
     categories = get_db().categories.find()
     subcategories = get_db().subcategories.find()
 
-    return render_template('')
+    return render_template('test.html', categories=categories, subcategories=subcategories)
 
 
 @bp.route("/tags-list/")

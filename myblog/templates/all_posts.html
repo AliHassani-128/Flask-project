@@ -1,28 +1,21 @@
-{% extends 'index.html' %}
-
-{% block posts %}
-{% with massages= get_flashed_messages(with_categories=true)%} {% if massages %} {% for category,massage in massages %}
+{% extends 'index.html' %} {% block posts %} {% with massages= get_flashed_messages(with_categories=true)%} {% if massages %} {% for category,massage in massages %}
 <div class="text-center text-dark alert {{ category }}" id="mydiv">
     {% if category=="alert-success" %} {% endif %} {{ massage }}
-</div>  {% endfor %} {% endif %} {% endwith %}
-
-
-{% if posts %}
+</div> {% endfor %} {% endif %} {% endwith %} {% if posts %}
 <div class="container_fluid">
     <div id="posts" class="row " style="min-width: 100%">
-        {% for post in posts %}
-        {% if post.status %}
+        {% for post in posts %} {% if post.status %}
         <div class="col-4 bg-white mt-2" style="">
             <div class="card" style="height:100% ">
                 <div class="card-header">
 
-                    <img class="rounded"
-                         src="{{ url_for('static', filename='media/uploads/posts/' + post.image) }}"
+                    <img class="rounded" src="{{ url_for('static', filename='media/uploads/posts/' + post.image) }}"
                          style="width:100%;max-height: 200px">
                 </div>
                 <div class="card-body">
                     <div class="row" style="direction: rtl">
-                        <h3>{{post.title}}</h3></div>
+                        <h3>{{post.title}}</h3>
+                    </div>
                     <div class="row" style="direction: rtl">
                         <strong><p>{{ post.content[:35] }}...</p></strong><br>
                     </div>
@@ -43,24 +36,20 @@
                                     : نویسنده</a></button>
                         </div>
 
+
                     </div>
 
 
                 </div>
             </div>
         </div>
-        {% endif %}
-        {% endfor %}
+        {% endif %} {% endfor %}
 
 
     </div>
 
 
 </div>
-{% endif %}
-
-{% endblock %}
-
-{% block js %}
+{% endif %} {% endblock %} {% block js %}
 <script src="{{ url_for('static',filename='js/alert.js') }}"></script>
 {% endblock %}

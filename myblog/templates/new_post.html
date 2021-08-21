@@ -1,15 +1,9 @@
-{% extends 'base.html' %}
-
-{% block css %}
-    <link rel="stylesheet" href="{{ url_for('static',filename='css/new_post.css')}}">
-{% endblock %}
-
-{% block content %}
-{% with massages= get_flashed_messages(with_categories=true)%} {% if massages %} {% for category,massage in massages %}
+{% extends 'base.html' %} {% block css %}
+<link rel="stylesheet"
+      href="{{ url_for('static',filename='css/new_post.css')}}"> {% endblock %} {% block content %} {% with massages= get_flashed_messages(with_categories=true)%} {% if massages %} {% for category,massage in massages %}
 <div class="text-center text-dark alert {{ category }}" id="mydiv">
     {% if category=="alert-success" %} {% endif %} {{ massage }}
-</div>  {% endfor %} {% endif %} {% endwith %}
-
+</div> {% endfor %} {% endif %} {% endwith %}
 
 
 <form method="post" action="{{ url_for('user.create_post') }}" enctype="multipart/form-data">
@@ -22,26 +16,36 @@
 
             <div class="row mt-4 input">
 
-                <textarea name="content" class="form-control data" id="" cols="30" rows="10" placeholder="محتوای مطلب" ></textarea>
+                <textarea name="content" class="form-control data" id="" cols="30" rows="10"
+                          placeholder="محتوای مطلب"></textarea>
             </div>
-                 <div class="row mt-4 input " id="cat">
-                     <button id="select_category" type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo">انتخاب دسته بندی</button>
+            <div class="row mt-4 input " id="cat">
+                <button id="select_category" type="button" class="btn btn-info" data-toggle="collapse"
+                        data-target="#demo">انتخاب دسته بندی
+                </button>
                 <div id="demo" class="collapse text-center">
-                    {%  for category in categories %}
-                    <h3 class="bg-info">{{ category.name }}</h3><br>
-                        {% for sub in subcategories %}
-                        {%  if sub.category_id==category._id %}
-                            <input type="button" class="bg-dark text-info" value="{{ sub.name }}"><br>
-
-
-                        {% endif %}
-                        {% endfor %}
+                    {% for category in categories %}
+                    <h3 class="bg-info">{{ category.name }}</h3><br> {% for sub in subcategories %} {% if
+                    sub.category_id==category._id %}
+                    <input type="button" class="bg-dark text-info" value="{{ sub.name }}"><br> {% endif %} {% endfor %}
                     {% endfor %}
 
-  </div>
+                </div>
 
             </div>
 
+            <div class="row d-flex justify-content-start mt-4">
+                <label for="old-tags"> تگ ها :</label>
+                <select name="old-tags" id="old-tags">
+                    {% if tags %}
+                    {% for tag in tags %}
+                    <option value="{{ tag._id }}">{{ tag.name }}</option>
+                    {% endfor %}
+
+                    {% endif %}
+
+                </select>
+            </div>
 
             <div class="row mt-4 input" id="tags" style="max-width: 70%">
                 <input type="text" name="tags" id="all-tags" style="display: none">
@@ -72,12 +76,7 @@
         </div>
     </div>
 </form>
-{% endblock %}
-
-
-{% block js %}
-
-
-    <script src="{{ url_for('static' ,filename='js/new_tag.js') }}"></script>
-    <script src="{{ url_for('static',filename='js/alert.js') }}"></script>
+{% endblock %} {% block js %}
+<script src="{{ url_for('static' ,filename='js/new_tag.js') }}"></script>
+<script src="{{ url_for('static',filename='js/alert.js') }}"></script>
 {% endblock %}

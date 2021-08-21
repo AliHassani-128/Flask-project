@@ -1,6 +1,4 @@
-{% extends 'base.html' %}
-
-{% block content %}
+{% extends 'base.html' %} {% block content %}
 <div class="row border-bottom" style="background: white;height: auto;margin-top: 2rem">
     <div class="col-6 ml-6">
 
@@ -25,30 +23,34 @@
                     <div class="modal-content">
                         <div class="modal-body" style="direction: rtl">
 
-                            <div class="row">
+                            <div class="row mb-3 d-flex justify-content-center">
                                 {% if g.user.image %}
                                 <img style="border-radius: 50%;max-height: 100px;max-width: 200px"
                                      src="{{ url_for('static', filename='media/uploads/profiles/' + g.user.image) }}"
-                                     alt="">
-
-                                {% endif %}
+                                     alt=""> {% endif %}
                             </div>
 
-                            <div class="row">
-                                <h4>نام کاربری:{{g.user.username}}</h4>
+                            <div class="navbar alert-warning rounded mb-3">
+                                <h4 class="text-dark">نام کاربری:{{g.user.username}}</h4>
                             </div>
-                            <div class="row">
-                                <h4>ایمیل:{{g.user.email}}</h4>
+                            <div class="navbar alert-warning rounded mb-3">
+                                <h4 class="text-dark">ایمیل:{{g.user.email}}</h4>
                             </div>
-                            <div class="row">
-                                <h4>شماره همراه:{{g.user.phone}}</h4>
+                            <div class="navbar alert-warning rounded mb-3">
+                                <h4 class="text-dark">شماره همراه:{{g.user.phone}}</h4>
                             </div>
+                            <div class="d-flex justify-content-between">
 
-                            <button class="btn btn-info" type="submit">
-                                <a class="text-white" href="{{ url_for('user.profile',user_id=g.user._id|string) }}">ویرایش
-                                    پروفایل</a>
+                                <button class="btn btn-info" type="submit">
+                                    <a class="text-white"
+                                       href="{{ url_for('user.profile',user_id=g.user._id|string) }}">ویرایش
+                                        پروفایل</a>
 
-                            </button>
+                                </button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal" aria-hidden="true">
+                                    بستن
+                                </button>
+                            </div>
                         </div>
 
                     </div>
@@ -56,7 +58,6 @@
                 </div>
 
             </div>
-
 
             {% else %}
             <button class="btn btn-primary">
@@ -67,8 +68,6 @@
             <button class="btn btn-primary">
                 <a href="{{ url_for('blog.register') }}" class="text-white">ثبت نام</a>
             </button>
-
-
             {% endif %}
             <button class="btn ">
                 <i class="fa fa-search"></i>
@@ -80,8 +79,8 @@
     </div>
 
 
-    <div class="col-6 ">
-        <div class="row" style="display: flex;justify-content: flex-end">
+    <div class="col-6">
+        <div class="row" style="display: flex;justify-content: flex-end ;margin-right: 30px">
             <button class="btn ">
                 <h1><a href="{{ url_for('blog.home') }}" class="text-info">
                     {% if g.user %}
@@ -93,21 +92,19 @@
 
                 </a></h1>
             </button>
-            <div class="col-3">
+            {% if g.user.image %}
+            <div class="col-2">
 
-                {% if g.user.image %}
-                <img style="border-radius: 50%;max-height: 70%;width: 70%"
-                     src="{{ url_for('static', filename='media/uploads/profiles/' + g.user.image) }}"
-                     alt="">
 
-                {% endif %}
+                <img style="border-radius: 50%;max-height: 70px;width: 70px"
+                     src="{{ url_for('static', filename='media/uploads/profiles/' + g.user.image) }}" alt="">
 
             </div>
+            {% endif %}
         </div>
 
 
     </div>
-
 
 </div>
 {% block navbar %}
@@ -118,75 +115,84 @@
             <button class="btn text-white" data-toggle="modal" data-target="#myModal">دسته بندی
 
             </button>
-             <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal fade" id="myModal" role="dialog">
                 <div class="modal-dialog text-center">
-                <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-content">
+                        <div class="modal-header">
                             <button type="button" class="close bg-danger" data-dismiss="modal">&times;</button>
-                    </div>
-                    <div class="modal-body">
-                        {% for category in categories  %}
+                        </div>
+                        <div class="modal-body">
+                            {% for category in categories %}
 
 
+                            <button class="btn" data-toggle="modal" data-target="#myModal{{category._id}}">
+                                {{category.name }}
+                            </button>
+                            <br>
+                            <div class="modal fade" id="myModal{{category._id}}" role="dialog" tabindex="-1"
+                                 aria-hidden="true">
+                                <div class="modal-dialog" id="#myModal{{category._id }}">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                                بستن
+                                            </button>
+                                        </div>
+                                        <div class="modal-body bg-dark text-center">
 
 
-                            <button class="btn"data-toggle="modal" data-target="#myModal{{category._id}}">{{category.name }}</button><br>
-                            <div class="modal fade" id="myModal{{category._id}}"  role="dialog" tabindex="-1" aria-hidden="true">
-                            <div class="modal-dialog" id="#myModal{{category._id }}" >
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">بستن</button>
-                                    </div>
-                                    <div class="modal-body bg-dark text-center" >
+                                            {% for sub in subcategories %} {% if sub.category_id==category._id %}
+                                            subcategory_id=sub._id
+                                            <a href="{{ url_for('blog.category',subcategory_id=sub._id) }}"
+                                               id="{{ sub._id }}" style="margin-left:130px">{{ sub.name }} </a><br> {%
+                                            endif %} {% endfor %}
 
-
-                                        {% for sub in subcategories %}
-                                            {%  if sub.category_id==category._id %}
-                                                subcategory_id=sub._id
-                                        <a href={{url_for('blog.category',subcategory_id=sub._id)}} id="{{ sub._id }}" style="margin-left:130px" >{{ sub.name }} </a><br>
-                                            {% endif %}
-
-                                        {% endfor %}
-
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            </div>
-                        {% endfor %}
+                            {% endfor %}
 
 
-                     </div>
+                        </div>
+                    </div>
+
                 </div>
-
             </div>
-  </div>
 
-            <button class="btn">
-                <a href="{{ url_for('api.list_tags') }}" class="text-white text-decoration-none"> تگ ها</a>
+
+            <button class="btn text-white" data-toggle="modal" data-target="#tagModal">تگ ها
+
             </button>
+            <div class="modal fade" id="tagModal" role="dialog">
+                <div class="modal-dialog text-center">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close bg-danger" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            {% for tag in tags %}
+
+
+                            <a class="text-dark"
+                               href="{{ url_for('blog.tag_posts' ,tag=tag.name) }}">{{ tag.name }}</a><br>
+
+                            {% endfor %}
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
         </div>
 
 
     </div>
 
 </div>
-{% endblock %}
-
-{% block newPost %}
-{% endblock %}
-
-
-{% block posts %}
-{% endblock %}
-
-
-{% block detail_post %}
-{% endblock %}
-
-
-{% endblock %}
-
-
-{% block js %}
+{% endblock %} {% block newPost %} {% endblock %} {% block posts %} {% endblock %} {% block detail_post %} {% endblock %} {% endblock %} {% block js %}
 <script src="{{ url_for('static', filename='js/index.js') }}"></script>
 {% endblock %}
