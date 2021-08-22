@@ -46,16 +46,14 @@ def profile(user_id):
 def post_list(user_id):
     posts = get_db().posts.find({'user._id': ObjectId(user_id)})
     categories = get_db().categories.find()
-    subcategories = get_db().subcategories.find()
-    return render_template('my_posts.html', posts=list(posts), categories=categories, subcategories=list(subcategories))
+    return render_template('my_posts.html', posts=list(posts), categories=categories, )
 
 
 # for create a new post
 @bp.route("/create-post/", methods=['GET', 'POST'])
 @login_required
 def create_post():
-    categoies = get_db().categories.find()
-    subcategories = get_db().subcategories.find()
+    categories = get_db().categories.find()
     if request.method == 'POST':
 
         db = get_db()
@@ -75,7 +73,7 @@ def create_post():
 
         if post is None:
             db.posts.insert_one({'user': user, 'title': title, 'content': content,
-                                 'category': category,
+                                'category': category,
                                  'tag': tags, 'image': image.filename,
                                  'status': status, 'like': [], 'dislike': []})
             for tag in tags:
@@ -84,10 +82,9 @@ def create_post():
             return redirect(url_for('blog.home'))
         else:
             flash('پست با این عنوان موجوداست عنوان دیگری انتخاب کنید', 'alert-danger')
-            return render_template('new_post.html', categories=categoies)
+            return render_template('new_post.html', categories=list(categories))
 
-    return render_template('new_post.html', categories=categoies, subcategories=subcategories,
-                           tags=list(get_db().tag.find()))
+    return render_template('new_post.html', categories=list(categories))
 
 
 # for edit a post (just title,content,tags) can be change

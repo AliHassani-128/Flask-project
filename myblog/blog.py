@@ -46,9 +46,8 @@ def home():
     db = get_db()
     posts = db.posts.find()
     categories = db.categories.find()
-    subcategories = db.subcategories.find()
     tags = db.tag.find()
-    return render_template('all_posts.html', posts=list(posts), categories=categories, subcategories=list(subcategories), tags=list(tags))
+    return render_template('all_posts.html', posts=list(posts), categories=list(categories), tags=list(tags))
 
 
 # for showing all detail of one post
@@ -59,14 +58,13 @@ def post(post_id):
     return render_template('detail_post.html', post=post)
 
 
-@bp.route("/category-posts/<subcategory_id>/")
-def category(subcategory_id):
+@bp.route("/category-posts/<category_id>/")
+def category(category_id):
     db = get_db()
     categories = db.categories.find()
-    subcategories = db.subcategories.find()
-    posts = db.post.find({"category": subcategory_id})
+    posts = db.post.find({"category": category_id})
 
-    return render_template('all_posts.html', categories=categories, subcategories=list(subcategories), posts=list(posts))
+    return render_template('all_posts.html', categories=list(categories), posts=list(posts))
 
 
 @bp.route("/tag-posts/<tag_id>")
@@ -185,23 +183,26 @@ def like():
                      ]))[0]
                 return json.dumps({'likes': likes['like'], 'color': 'red'})
             else:
-                get_db().posts.update({'_id': ObjectId(post_id)}, {'$pull': {'dislike': ObjectId(user_id)}})
-                get_db().posts.update({'_id': ObjectId(post_id)}, {'$push': {'like': ObjectId(user_id)}})
+                get_db().posts.update({'_id': ObjectId(post_id)}, {
+                    '$pull': {'dislike': ObjectId(user_id)}})
+                get_db().posts.update({'_id': ObjectId(post_id)}, {
+                    '$push': {'like': ObjectId(user_id)}})
                 likes = list(get_db().posts.aggregate(
                     [{'$match': {'_id': ObjectId(post_id)}},
                      {'$project':
-                          {'like': {'$size': '$like'}}}
+                      {'like': {'$size': '$like'}}}
                      ]))[0]
                 dislikes = list(get_db().posts.aggregate(
                     [{'$match': {'_id': ObjectId(post_id)}},
                      {'$project':
-                          {'dislike': {'$size': '$dislike'}}}
+                      {'dislike': {'$size': '$dislike'}}}
                      ]))[0]
 
-                return json.dumps({'likes': likes['like'], 'color': 'red','dislikes':dislikes['dislike']})
+                return json.dumps({'likes': likes['like'], 'color': 'red', 'dislikes': dislikes['dislike']})
 
         else:
-            get_db().posts.update({'_id': ObjectId(post_id)},{'$pull': {'like':ObjectId(user_id)}})
+            get_db().posts.update({'_id': ObjectId(post_id)}, {
+                '$pull': {'like': ObjectId(user_id)}})
 
             likes = list(get_db().posts.aggregate(
                 [{'$match': {'_id': ObjectId(post_id)}},
@@ -234,22 +235,25 @@ def dislike():
                      ]))[0]
                 return json.dumps({'dislikes': dislikes['dislike']})
             else:
-                get_db().posts.update({'_id': ObjectId(post_id)}, {'$pull': {'like': ObjectId(user_id)}})
-                get_db().posts.update({'_id': ObjectId(post_id)}, {'$push': {'dislike': ObjectId(user_id)}})
+                get_db().posts.update({'_id': ObjectId(post_id)}, {
+                    '$pull': {'like': ObjectId(user_id)}})
+                get_db().posts.update({'_id': ObjectId(post_id)}, {
+                    '$push': {'dislike': ObjectId(user_id)}})
                 likes = list(get_db().posts.aggregate(
                     [{'$match': {'_id': ObjectId(post_id)}},
                      {'$project':
-                          {'like': {'$size': '$like'}}}
+                      {'like': {'$size': '$like'}}}
                      ]))[0]
                 dislikes = list(get_db().posts.aggregate(
                     [{'$match': {'_id': ObjectId(post_id)}},
                      {'$project':
-                          {'dislike': {'$size': '$dislike'}}}
+                      {'dislike': {'$size': '$dislike'}}}
                      ]))[0]
-                return json.dumps({'likes': likes['like'], 'color': 'lightslategray','dislikes':dislikes['dislike']})
+                return json.dumps({'likes': likes['like'], 'color': 'lightslategray', 'dislikes': dislikes['dislike']})
 
         else:
-            get_db().posts.update({'_id': ObjectId(post_id)},{'$pull': {'dislike':ObjectId(user_id)}})
+            get_db().posts.update({'_id': ObjectId(post_id)}, {
+                '$pull': {'dislike': ObjectId(user_id)}})
 
             dislikes = list(get_db().posts.aggregate(
                 [{'$match': {'_id': ObjectId(post_id)}},

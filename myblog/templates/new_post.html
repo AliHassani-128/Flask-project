@@ -1,6 +1,5 @@
 {% extends 'base.html' %} {% block css %}
-<link rel="stylesheet"
-      href="{{ url_for('static',filename='css/new_post.css')}}"> {% endblock %} {% block content %} {% with massages= get_flashed_messages(with_categories=true)%} {% if massages %} {% for category,massage in massages %}
+<link rel="stylesheet" href="{{ url_for('static',filename='css/new_post.css') }}" xmlns="http://www.w3.org/1999/html"> {% endblock %} {% block content %} {% with massages= get_flashed_messages(with_categories=true)%} {% if massages %} {% for category,massage in massages %}
 <div class="text-center text-dark alert {{ category }}" id="mydiv">
     {% if category=="alert-success" %} {% endif %} {{ massage }}
 </div> {% endfor %} {% endif %} {% endwith %}
@@ -16,22 +15,33 @@
 
             <div class="row mt-4 input">
 
-                <textarea name="content" class="form-control data" id="" cols="30" rows="10"
-                          placeholder="محتوای مطلب"></textarea>
+                <textarea name="content" class="form-control data" id="" cols="30" rows="10" placeholder="محتوای مطلب"></textarea>
             </div>
-            <div class="row mt-4 input " id="cat">
-                <button id="select_category" type="button" class="btn btn-info" data-toggle="collapse"
-                        data-target="#demo">انتخاب دسته بندی
-                </button>
-                <div id="demo" class="collapse text-center">
-                    {% for category in categories %}
-                    <h3 class="bg-info">{{ category.name }}</h3><br> {% for sub in subcategories %} {% if
-                    sub.category_id==category._id %}
-                    <input type="button" class="bg-dark text-info" value="{{ sub.name }}"><br> {% endif %} {% endfor %}
-                    {% endfor %}
+            <div class="row mt-4">
+                <ul id="myUL">
+                    <li><span class="caret border btn bg-info">دسته بندی</span>
+                        <ul class="nested">
+                            {% for cat in categories %} {% if cat.category_id==Null %}
+                            <li class="category  bg-dark"><span class="caret   text-info">{{ cat.name }}</span>
+                                <ul class="nested">
+                                    {% for category in categories %} {% if cat._id==category.category_id %}
+                                    <ul>
+                                        <li class="text-white"><button class="btn text-white cat_btn" type="button" value="{{ category._id }}">{{ category.name }}</button></li>
+                                    </ul>
+                                    {% endif %} {% endfor %}
+                                </ul>
 
-                </div>
+                            </li>
+                            {% endif %} {% endfor %}
 
+                        </ul>
+                    </li>
+                </ul>
+
+                </select>
+            </div>
+            <div class="row mt-4 input" id="category" style="max-width: 70%">
+                <input type="text" name="category" id="select_category" style="display: none">
             </div>
 
             <div class="row d-flex justify-content-start mt-4">
@@ -62,8 +72,7 @@
                     <h5 style="opacity: 0.5;margin-bottom: 2rem">تصویر برای پست خود بارگذاری کنید</h5>
                 </div>
                 <div class="col-12 text-center">
-                    <input id="image" name="image" type="file" class="btn rounded btn-secondary"
-                           style="align-items: center;width: 70%">
+                    <input id="image" name="image" type="file" class="btn rounded btn-secondary" style="align-items: center;width: 70%">
                 </div>
             </div>
             <div class="row d-flex justify-content-center mt-4">
@@ -77,6 +86,7 @@
     </div>
 </form>
 {% endblock %} {% block js %}
+<script src="{{ url_for('static' ,filename='js/category_newpost.js') }}"></script>
 <script src="{{ url_for('static' ,filename='js/new_tag.js') }}"></script>
 <script src="{{ url_for('static',filename='js/alert.js') }}"></script>
 {% endblock %}

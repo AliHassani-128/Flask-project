@@ -25,9 +25,7 @@
 
                             <div class="row mb-3 d-flex justify-content-center">
                                 {% if g.user.image %}
-                                <img style="border-radius: 50%;max-height: 100px;max-width: 200px"
-                                     src="{{ url_for('static', filename='media/uploads/profiles/' + g.user.image) }}"
-                                     alt=""> {% endif %}
+                                <img style="border-radius: 50%;max-height: 100px;max-width: 200px" src="{{ url_for('static', filename='media/uploads/profiles/' + g.user.image) }}" alt=""> {% endif %}
                             </div>
 
                             <div class="navbar alert-warning rounded mb-3">
@@ -67,8 +65,7 @@
 
             <button class="btn btn-primary">
                 <a href="{{ url_for('blog.register') }}" class="text-white">ثبت نام</a>
-            </button>
-            {% endif %}
+            </button> {% endif %}
             <button class="btn ">
                 <i class="fa fa-search"></i>
             </button>
@@ -91,13 +88,11 @@
 
 
                 </a></h1>
-            </button>
-            {% if g.user.image %}
+            </button> {% if g.user.image %}
             <div class="col-2">
 
 
-                <img style="border-radius: 50%;max-height: 70px;width: 70px"
-                     src="{{ url_for('static', filename='media/uploads/profiles/' + g.user.image) }}" alt="">
+                <img style="border-radius: 50%;max-height: 70px;width: 70px" src="{{ url_for('static', filename='media/uploads/profiles/' + g.user.image) }}" alt="">
 
             </div>
             {% endif %}
@@ -122,16 +117,15 @@
                             <button type="button" class="close bg-danger" data-dismiss="modal">&times;</button>
                         </div>
                         <div class="modal-body">
-                            {% for category in categories %}
+                            {% for cat in categories %} {% if cat.category_id==Null %}
 
 
-                            <button class="btn" data-toggle="modal" data-target="#myModal{{category._id}}">
-                                {{category.name }}
+                            <button class="btn" data-toggle="modal" data-target="#myModal{{cat._id}}">
+                                {{cat.name }}
                             </button>
                             <br>
-                            <div class="modal fade" id="myModal{{category._id}}" role="dialog" tabindex="-1"
-                                 aria-hidden="true">
-                                <div class="modal-dialog" id="#myModal{{category._id }}">
+                            <div class="modal fade" id="myModal{{cat._id}}" role="dialog" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog" id="#myModal{{cat._id }}">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
@@ -141,17 +135,14 @@
                                         <div class="modal-body bg-dark text-center">
 
 
-                                            {% for sub in subcategories %} {% if sub.category_id==category._id %}
-                                            subcategory_id=sub._id
-                                            <a href="{{ url_for('blog.category',subcategory_id=sub._id) }}"
-                                               id="{{ sub._id }}" style="margin-left:130px">{{ sub.name }} </a><br> {%
-                                            endif %} {% endfor %}
+                                            {% for category in categories %} {% if cat._id==category.category_id %}
+                                            <a href="{{ url_for('blog.category',category_id=category._id) }}" id="{{ category._id }}">{{ category.name }} </a><br> {% endif %} {% endfor %}
 
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            {% endfor %}
+                            {% endif %} {% endfor %}
 
 
                         </div>
@@ -174,10 +165,7 @@
                             {% for tag in tags %}
 
 
-                            <a class="text-dark"
-                               href="{{ url_for('blog.tag_posts' ,tag=tag.name) }}">{{ tag.name }}</a><br>
-
-                            {% endfor %}
+                            <a class="text-dark" href="{{ url_for('blog.tag_posts' ,tag=tag.name) }}">{{ tag.name }}</a><br> {% endfor %}
 
 
                         </div>
@@ -186,11 +174,13 @@
                 </div>
             </div>
 
-
         </div>
 
-
     </div>
+
+</div>
+
+</div>
 
 </div>
 {% endblock %} {% block newPost %} {% endblock %} {% block posts %} {% endblock %} {% block detail_post %} {% endblock %} {% endblock %} {% block js %}

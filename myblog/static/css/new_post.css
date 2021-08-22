@@ -1,14 +1,34 @@
-.collapse {
+ul, #myUL {
+  list-style-type: none;
 
-    margin-right: 30px;
 }
-.collapse input{
-    cursor: pointer;
-    margin-bottom: 15px;
-    width: 200px;
-    height: 40px;
+
+
+#myUL {
+  margin:0;
+  padding: 0;
 }
-#select_category{
-    max-height: 35px;
+.caret {
+  cursor: pointer;
+}
+
+.caret::after {
+  content: ">>";
+  color: black;
+  display: inline-block;
+
+}
+
+.caret-down::after {
+  transform: rotate(270deg);
+}
+
+.nested {
+  display: none;
+}
+
+.active {
+  display: inline;
+
 }
 
