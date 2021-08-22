@@ -1,5 +1,6 @@
 {% extends 'base.html' %} {% block css %}
-<link rel="stylesheet" href="{{ url_for('static',filename='css/new_post.css') }}" xmlns="http://www.w3.org/1999/html"> {% endblock %} {% block content %} {% with massages= get_flashed_messages(with_categories=true)%} {% if massages %} {% for category,massage in massages %}
+<link rel="stylesheet" href="{{ url_for('static',filename='css/new_post.css') }}"
+      xmlns="http://www.w3.org/1999/html"> {% endblock %} {% block content %} {% with massages= get_flashed_messages(with_categories=true)%} {% if massages %} {% for category,massage in massages %}
 <div class="text-center text-dark alert {{ category }}" id="mydiv">
     {% if category=="alert-success" %} {% endif %} {{ massage }}
 </div> {% endfor %} {% endif %} {% endwith %}
@@ -15,7 +16,8 @@
 
             <div class="row mt-4 input">
 
-                <textarea name="content" class="form-control data" id="" cols="30" rows="10" placeholder="محتوای مطلب"></textarea>
+                <textarea name="content" class="form-control data" id="" cols="30" rows="10"
+                          placeholder="محتوای مطلب"></textarea>
             </div>
             <div class="row mt-4">
                 <ul id="myUL">
@@ -26,7 +28,11 @@
                                 <ul class="nested">
                                     {% for category in categories %} {% if cat._id==category.category_id %}
                                     <ul>
-                                        <li class="text-white"><button class="btn text-white cat_btn" type="button" value="{{ category._id }}">{{ category.name }}</button></li>
+                                        <li class="text-white">
+                                            <button class="btn text-white cat_btn" type="button"
+                                                    value="{{ category.name }}">{{ category.name }}
+                                            </button>
+                                        </li>
                                     </ul>
                                     {% endif %} {% endfor %}
                                 </ul>
@@ -46,10 +52,10 @@
 
             <div class="row d-flex justify-content-start mt-4">
                 <label for="old-tags"> تگ ها :</label>
-                <select name="old-tags" id="old-tags">
+                <select name="old-tag" id="old-tags">
                     {% if tags %}
                     {% for tag in tags %}
-                    <option value="{{ tag._id }}">{{ tag.name }}</option>
+                    <option value="{{ tag.name }}">{{ tag.name }}</option>
                     {% endfor %}
 
                     {% endif %}
@@ -72,7 +78,8 @@
                     <h5 style="opacity: 0.5;margin-bottom: 2rem">تصویر برای پست خود بارگذاری کنید</h5>
                 </div>
                 <div class="col-12 text-center">
-                    <input id="image" name="image" type="file" class="btn rounded btn-secondary" style="align-items: center;width: 70%">
+                    <input id="image" name="image" type="file" class="btn rounded btn-secondary"
+                           style="align-items: center;width: 70%">
                 </div>
             </div>
             <div class="row d-flex justify-content-center mt-4">

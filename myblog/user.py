@@ -9,7 +9,7 @@ from flask import url_for
 import json
 from werkzeug.exceptions import abort
 from werkzeug.utils import secure_filename
-from datetime import datetime
+from datetime import date
 
 from myblog.blog import login_required
 from myblog.db import get_db
@@ -54,6 +54,7 @@ def post_list(user_id):
 @login_required
 def create_post():
     categories = get_db().categories.find()
+    tags = get_db().tag.find()
     if request.method == 'POST':
 
         db = get_db()
@@ -61,6 +62,7 @@ def create_post():
         content = request.form.get('content')
         category = request.form.get('category')
         tags = json.loads(request.form.get('tags'))
+        tags.append(request.form.get('old-tag'))
         image = request.files.get('image')
         user = g.user
         status = True
@@ -73,18 +75,19 @@ def create_post():
 
         if post is None:
             db.posts.insert_one({'user': user, 'title': title, 'content': content,
-                                'category': category,
+                                 'category': category,
                                  'tag': tags, 'image': image.filename,
-                                 'status': status, 'like': [], 'dislike': []})
+                                 'status': status, 'like': [], 'dislike': [], 'pub_date': str(date.today())})
             for tag in tags:
-                db.tag.insert_one({"name": tag})
+                if not db.tag.find_one({'name': tag}):
+                    db.tag.insert_one({"name": tag})
 
             return redirect(url_for('blog.home'))
         else:
             flash('پست با این عنوان موجوداست عنوان دیگری انتخاب کنید', 'alert-danger')
             return render_template('new_post.html', categories=list(categories))
 
-    return render_template('new_post.html', categories=list(categories))
+    return render_template('new_post.html', categories=list(categories), tags=list(tags))
 
 
 # for edit a post (just title,content,tags) can be change

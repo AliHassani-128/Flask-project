@@ -179,7 +179,7 @@ def like():
                 likes = list(get_db().posts.aggregate(
                     [{'$match': {'_id': ObjectId(post_id)}},
                      {'$project':
-                      {'like': {'$size': '$like'}}}
+                          {'like': {'$size': '$like'}}}
                      ]))[0]
                 return json.dumps({'likes': likes['like'], 'color': 'red'})
             else:
@@ -190,12 +190,12 @@ def like():
                 likes = list(get_db().posts.aggregate(
                     [{'$match': {'_id': ObjectId(post_id)}},
                      {'$project':
-                      {'like': {'$size': '$like'}}}
+                          {'like': {'$size': '$like'}}}
                      ]))[0]
                 dislikes = list(get_db().posts.aggregate(
                     [{'$match': {'_id': ObjectId(post_id)}},
                      {'$project':
-                      {'dislike': {'$size': '$dislike'}}}
+                          {'dislike': {'$size': '$dislike'}}}
                      ]))[0]
 
                 return json.dumps({'likes': likes['like'], 'color': 'red', 'dislikes': dislikes['dislike']})
@@ -207,7 +207,7 @@ def like():
             likes = list(get_db().posts.aggregate(
                 [{'$match': {'_id': ObjectId(post_id)}},
                  {'$project':
-                  {'like': {'$size': '$like'}}}
+                      {'like': {'$size': '$like'}}}
                  ]))[0]
             return json.dumps({'likes': likes['like'], 'color': 'lightslategray'})
     else:
@@ -231,7 +231,7 @@ def dislike():
                 dislikes = list(get_db().posts.aggregate(
                     [{'$match': {'_id': ObjectId(post_id)}},
                      {'$project':
-                      {'dislike': {'$size': '$dislike'}}}
+                          {'dislike': {'$size': '$dislike'}}}
                      ]))[0]
                 return json.dumps({'dislikes': dislikes['dislike']})
             else:
@@ -242,12 +242,12 @@ def dislike():
                 likes = list(get_db().posts.aggregate(
                     [{'$match': {'_id': ObjectId(post_id)}},
                      {'$project':
-                      {'like': {'$size': '$like'}}}
+                          {'like': {'$size': '$like'}}}
                      ]))[0]
                 dislikes = list(get_db().posts.aggregate(
                     [{'$match': {'_id': ObjectId(post_id)}},
                      {'$project':
-                      {'dislike': {'$size': '$dislike'}}}
+                          {'dislike': {'$size': '$dislike'}}}
                      ]))[0]
                 return json.dumps({'likes': likes['like'], 'color': 'lightslategray', 'dislikes': dislikes['dislike']})
 
@@ -258,7 +258,7 @@ def dislike():
             dislikes = list(get_db().posts.aggregate(
                 [{'$match': {'_id': ObjectId(post_id)}},
                  {'$project':
-                  {'dislike': {'$size': '$dislike'}}}
+                      {'dislike': {'$size': '$dislike'}}}
                  ]))[0]
             return json.dumps({'dislikes': dislikes['dislike']})
 
