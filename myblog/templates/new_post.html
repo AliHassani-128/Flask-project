@@ -29,7 +29,7 @@
                                     {% for category in categories %}
                                     {% if cat._id==category.category_id %}
                                         <ul>
-                                        <li class="text-white"><button class="btn text-white cat_btn" value="{{ category._id }}">{{ category.name }}</button></li>
+                                        <li class="text-white"><button class="btn text-white cat_btn" type="button" value="{{ category._id }}">{{ category.name }}</button></li>
                                         </ul>
                                         {% endif %}
                                 {% endfor %}
