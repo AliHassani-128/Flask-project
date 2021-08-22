@@ -34,7 +34,7 @@ def delete_post(post_id):
     get_db().posts.delete_one({'_id': ObjectId(post_id)})
     db = get_db()
     posts = db.posts.find()
-    return render_template('all_posts.html', posts=list(posts))
+    return JSONEncoder().encode(list(posts))
 
 
 @bp.route("/post-deactive/<post_id>/")
@@ -42,8 +42,8 @@ def post_deactive(post_id):
     get_db().posts.update({'_id': ObjectId(post_id)},
                           {'$set': {'status': False}})
     db = get_db()
-    post = db.posts.find()
-    return render_template('all_posts.html', posts=list(post))
+    posts = db.posts.find()
+    return JSONEncoder().encode(list(posts))
 
 
 @bp.route("/post-active/<post_id>/")
@@ -51,8 +51,8 @@ def post_active(post_id):
     get_db().posts.update({'_id': ObjectId(post_id)},
                           {'$set': {'status': True}})
     db = get_db()
-    post = db.posts.find()
-    return render_template('all_posts.html', posts=list(post))
+    posts = db.posts.find()
+    return JSONEncoder().encode(list(posts))
 
 
 @bp.route("/categorys-list/")

@@ -1,13 +1,15 @@
 {% extends 'base.html' %} {% block content %} {% if user %}
 <div class=" row d-flex justify-content-center">
     <div class="col-4 mt-4 rounded" style="background: #0f6674">
-        <form method="post" action="{{ url_for('user.profile',user_id=user._id|string) }}" enctype="multipart/form-data">
+        <form method="post" action="{{ url_for('user.profile',user_id=user._id|string) }}"
+              enctype="multipart/form-data">
             <h3 class="d-flex justify-content-end mt-3" style="color: white">: ویرایش پروفایل
             </h3>
             <div class="row d-block">
                 {% if user.image %}
                 <div class="row d-flex justify-content-center mt-3">
-                    <img style="border-radius: 50%;max-height: 100px;max-width: 200px" src="{{ url_for('static', filename='media/uploads/profiles/' + user.image) }}" alt="">
+                    <img style="border-radius: 50%;max-height: 100px;max-width: 200px"
+                         src="{{ url_for('static', filename='media/uploads/profiles/' + user.image) }}" alt="">
                 </div>
 
                 <div class="row mt-4 justify-content-center">
@@ -21,7 +23,8 @@
                         <h5 style="opacity: 0.5;margin-bottom: 2rem">عکس پروفایل خود را انتخاب کنید</h5>
                     </div>
                     <div class="col-12 text-center">
-                        <input id="image" name="image" type="file" class="btn rounded btn-secondary" style="align-items: center;width: 70%">
+                        <input id="image" name="image" type="file" class="btn rounded btn-secondary"
+                               style="align-items: center;width: 70%">
                     </div>
                 </div>
 
@@ -43,7 +46,8 @@
 
 
             <div class="row d-flex justify-content-center mt-4 mb-3">
-                <button type="button" class="btn btn-warning rounded"><a class="text-white" href="{{url_for('blog.home')}}">بازگشت</a>
+                <button type="button" class="btn btn-warning rounded"><a class="text-white"
+                                                                         href="{{url_for('blog.home')}}">بازگشت</a>
                 </button>
                 <button id="edit" type="submit" class="btn btn-info rounded ml-3">ثبت
                 </button>
@@ -59,7 +63,7 @@
 <p>user not found</p>
 {% endif %} {% endblock %} {% block js %}
 <script>
-    $('#edit-image').click(function() {
+    $('#edit-image').click(function () {
         let div = $('<div className="row text-center"></div>').appendTo('#set-image');
         let file = $('<input id="image" name="image" type="file" class="btn rounded btn-secondary" style="align-items: center;width: 70%">').appendTo(div);
 

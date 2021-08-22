@@ -55,8 +55,8 @@ def home():
 @bp.route("/post/<post_id>/")
 def post(post_id):
     db = get_db()
-    post = db.posts.find({'_id': ObjectId(post_id)})
-    return render_template('detail_post.html', posts=list(post))
+    post = db.posts.find_one({'_id': ObjectId(post_id)})
+    return render_template('detail_post.html', post=post)
 
 
 @bp.route("/category-posts/<subcategory_id>/")
@@ -174,18 +174,35 @@ def like():
 
     if user_id:
         if ObjectId(user_id) not in post['like']:
+            if ObjectId(user_id) not in post['dislike']:
 
-            get_db().posts.update({'_id': ObjectId(post_id)}, {
-                '$push': {'like': ObjectId(user_id)}})
-            likes = list(get_db().posts.aggregate(
-                [{'$match': {'_id': ObjectId(post_id)}},
-                 {'$project':
-                  {'like': {'$size': '$like'}}}
-                 ]))[0]
-            return json.dumps({'likes': likes['like'], 'color': 'red'})
+                get_db().posts.update({'_id': ObjectId(post_id)}, {
+                    '$push': {'like': ObjectId(user_id)}})
+                likes = list(get_db().posts.aggregate(
+                    [{'$match': {'_id': ObjectId(post_id)}},
+                     {'$project':
+                      {'like': {'$size': '$like'}}}
+                     ]))[0]
+                return json.dumps({'likes': likes['like'], 'color': 'red'})
+            else:
+                get_db().posts.update({'_id': ObjectId(post_id)}, {'$pull': {'dislike': ObjectId(user_id)}})
+                get_db().posts.update({'_id': ObjectId(post_id)}, {'$push': {'like': ObjectId(user_id)}})
+                likes = list(get_db().posts.aggregate(
+                    [{'$match': {'_id': ObjectId(post_id)}},
+                     {'$project':
+                          {'like': {'$size': '$like'}}}
+                     ]))[0]
+                dislikes = list(get_db().posts.aggregate(
+                    [{'$match': {'_id': ObjectId(post_id)}},
+                     {'$project':
+                          {'dislike': {'$size': '$dislike'}}}
+                     ]))[0]
+
+                return json.dumps({'likes': likes['like'], 'color': 'red','dislikes':dislikes['dislike']})
+
         else:
-            get_db().posts.update({'_id': ObjectId(post_id)}, {
-                '$pull': {'like': ObjectId(user_id)}})
+            get_db().posts.update({'_id': ObjectId(post_id)},{'$pull': {'like':ObjectId(user_id)}})
+
             likes = list(get_db().posts.aggregate(
                 [{'$match': {'_id': ObjectId(post_id)}},
                  {'$project':
@@ -206,23 +223,40 @@ def dislike():
 
     if user_id:
         if ObjectId(user_id) not in post['dislike']:
+            if ObjectId(user_id) not in post['like']:
 
-            get_db().posts.update({'_id': ObjectId(post_id)}, {
-                '$push': {'dislike': ObjectId(user_id)}})
-            dislikes = list(get_db().posts.aggregate(
-                [{'$match': {'_id': ObjectId(post_id)}},
-                 {'$project':
-                  {'dislike': {'$size': '$dislike'}}}
-                 ]))[0]
-            return json.dumps({'dislikes': dislikes['dislike']})
+                get_db().posts.update({'_id': ObjectId(post_id)}, {
+                    '$push': {'dislike': ObjectId(user_id)}})
+                dislikes = list(get_db().posts.aggregate(
+                    [{'$match': {'_id': ObjectId(post_id)}},
+                     {'$project':
+                      {'dislike': {'$size': '$dislike'}}}
+                     ]))[0]
+                return json.dumps({'dislikes': dislikes['dislike']})
+            else:
+                get_db().posts.update({'_id': ObjectId(post_id)}, {'$pull': {'like': ObjectId(user_id)}})
+                get_db().posts.update({'_id': ObjectId(post_id)}, {'$push': {'dislike': ObjectId(user_id)}})
+                likes = list(get_db().posts.aggregate(
+                    [{'$match': {'_id': ObjectId(post_id)}},
+                     {'$project':
+                          {'like': {'$size': '$like'}}}
+                     ]))[0]
+                dislikes = list(get_db().posts.aggregate(
+                    [{'$match': {'_id': ObjectId(post_id)}},
+                     {'$project':
+                          {'dislike': {'$size': '$dislike'}}}
+                     ]))[0]
+                return json.dumps({'likes': likes['like'], 'color': 'lightslategray','dislikes':dislikes['dislike']})
+
         else:
-            get_db().posts.update({'_id': ObjectId(post_id)}, {
-                '$pull': {'dislike': ObjectId(user_id)}})
+            get_db().posts.update({'_id': ObjectId(post_id)},{'$pull': {'dislike':ObjectId(user_id)}})
+
             dislikes = list(get_db().posts.aggregate(
                 [{'$match': {'_id': ObjectId(post_id)}},
                  {'$project':
                   {'dislike': {'$size': '$dislike'}}}
                  ]))[0]
             return json.dumps({'dislikes': dislikes['dislike']})
+
     else:
         return json.dumps({'error': 'برای نپسندیدن پست ها باید کاربر سایت باشید'})

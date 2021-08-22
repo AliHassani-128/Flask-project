@@ -9,6 +9,7 @@ from flask import url_for
 import json
 from werkzeug.exceptions import abort
 from werkzeug.utils import secure_filename
+from datetime import datetime
 
 from myblog.blog import login_required
 from myblog.db import get_db
@@ -20,7 +21,6 @@ bp = Blueprint("user", __name__, url_prefix='/user')
 @login_required
 @bp.route("/profile/<user_id>", methods=['GET', 'POST'])
 def profile(user_id):
-
     if request.method == 'POST':
         image = request.files.get('image')
         email = request.form.get('email')
@@ -75,7 +75,7 @@ def create_post():
 
         if post is None:
             db.posts.insert_one({'user': user, 'title': title, 'content': content,
-                                'category': category,
+                                 'category': category,
                                  'tag': tags, 'image': image.filename,
                                  'status': status, 'like': [], 'dislike': []})
             for tag in tags:
@@ -86,13 +86,13 @@ def create_post():
             flash('پست با این عنوان موجوداست عنوان دیگری انتخاب کنید', 'alert-danger')
             return render_template('new_post.html', categories=categoies)
 
-    return render_template('new_post.html', categories=categoies, subcategories=subcategories,)
+    return render_template('new_post.html', categories=categoies, subcategories=subcategories,
+                           tags=list(get_db().tag.find()))
 
 
 # for edit a post (just title,content,tags) can be change
 @bp.route("/edit-post/<post_id>", methods=['POST'])
 def edit_post(post_id):
-
     title = request.form.get('title')
     content = request.form.get('content')
     tags = json.loads(request.form.get('tags'))
