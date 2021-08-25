@@ -159,7 +159,8 @@ def user_posts(user_id):
 @bp.route('/tag-posts/<tag>/')
 def tag_posts(tag):
     posts = get_db().posts.find({'tag': {'$in': [tag]}})
-    return render_template('all_posts.html', posts=list(posts))
+    return render_template('all_posts.html', posts=list(posts),)
+
 
 
 # like a post
@@ -211,7 +212,7 @@ def like():
                  ]))[0]
             return json.dumps({'likes': likes['like'], 'color': 'lightslategray'})
     else:
-        return json.dumps({'error': 'برای لایک کردن پست ها باید کاربر سایت باشید'})
+        return json.dumps({'error': 'برای لایک کردن پست ها ابتدا به عنوان کاربر وارد شوید'})
 
 
 # dislike a post
@@ -263,4 +264,4 @@ def dislike():
             return json.dumps({'dislikes': dislikes['dislike']})
 
     else:
-        return json.dumps({'error': 'برای نپسندیدن پست ها باید کاربر سایت باشید'})
+        return json.dumps({'error': 'برای نپسندیدن پست ها ابتدا بع عنوان کاربر وارد شوید'})

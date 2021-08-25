@@ -1,7 +1,8 @@
-{% extends 'index.html' %} {% block posts %} {% with massages= get_flashed_messages(with_categories=true)%} {% if massages %} {% for category,massage in massages %}
-<div class="text-center text-dark alert {{ category }}" id="mydiv">
-    {% if category=="alert-success" %} {% endif %} {{ massage }}
-</div> {% endfor %} {% endif %} {% endwith %} {% if posts %}
+{% extends 'index.html' %}
+{% block posts %}
+
+
+{% if posts %}
 <div class="container_fluid">
     <div id="posts" class="row " style="min-width: 100%">
         {% for post in posts %} {% if post.status %}
@@ -50,6 +51,7 @@
 
 
 </div>
+
 {% endif %} {% endblock %} {% block js %}
 <script src="{{ url_for('static',filename='js/alert.js') }}"></script>
 {% endblock %}

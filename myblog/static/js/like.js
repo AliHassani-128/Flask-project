@@ -14,7 +14,11 @@
                      $('#heart-like').css('color', JSON.parse(data).color);
                 }
                 if (JSON.parse(data).error) {
-                    alert(JSON.parse(data).error)
+                    swal({title: '! خطا', text: JSON.parse(data).error, icon:'warning',type: "warning"}
+                    ).then(function () {
+                            window.location = "/login";
+
+                        });
                 }
                 else {
 
@@ -43,7 +47,11 @@ function dislike(post_id, user_id) {
                      $('#heart-like').css('color', JSON.parse(data).color);
                 }
                 if (JSON.parse(data).error) {
-                    alert(JSON.parse(data).error)
+                    swal({title: '! خطا', text: JSON.parse(data).error, icon:'warning',type: "warning"}
+                    ).then(function () {
+                            window.location = "/login";
+
+                        });
                 } else {
                     $('#count-dislike').html(JSON.parse(data).dislikes);
                 }

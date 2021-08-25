@@ -1,34 +1,20 @@
-ul, #myUL {
-  list-style-type: none;
+.collapse {
 
+    margin-right: 30px;
 }
-
-
-#myUL {
-  margin:0;
-  padding: 0;
+.collapse input{
+    cursor: pointer;
+    margin-bottom: 15px;
+    width: 200px;
+    height: 40px;
 }
-.caret {
-  cursor: pointer;
+#select_category{
+    margin-right: 0px;
 }
-
-.caret::after {
-  content: ">>";
-  color: black;
-  display: inline-block;
-
+.btn_category{
+    max-height: 40px;
 }
-
-.caret-down::after {
-  transform: rotate(270deg);
+.list-inline-item{
+    margin-top: 0px;
+    margin-right: 5px;
 }
-
-.nested {
-  display: none;
-}
-
-.active {
-  display: inline;
-
-}
-
