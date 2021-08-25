@@ -1,0 +1,34 @@
+ul, #myUL {
+  list-style-type: none;
+
+}
+
+
+#myUL {
+  margin:0;
+  padding: 0;
+}
+.caret {
+  cursor: pointer;
+}
+
+.caret::after {
+  content: ">>";
+  color: black;
+  display: inline-block;
+
+}
+
+.caret-down::after {
+  transform: rotate(270deg);
+}
+
+.nested {
+  display: none;
+}
+
+.active {
+  display: inline;
+
+}
+
