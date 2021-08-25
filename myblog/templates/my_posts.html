@@ -11,7 +11,7 @@
                 <div class="card-header">
 
                     <img class="rounded card-img" src="{{ url_for('static', filename='media/uploads/posts/' + post.image) }}"
-                         style="width:100%;max-height: 200px;object-fit: cover;">
+                         style="object-fit: none;">
                 </div>
                 <div class="card-body">
                     <div class="row" style="direction: rtl">
@@ -81,7 +81,7 @@
     </div>
 
 
-</div>
+
 {% endif %} {% endblock %} {% block js %}
 <script src="{{ url_for('static',filename='js/alert.js') }}"></script>
 {% endblock %}
