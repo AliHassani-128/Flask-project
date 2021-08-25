@@ -35,6 +35,9 @@
                                    href="{{ url_for('blog.user_posts' ,user_id=post.user._id|string) }}">{{post.user.username}}
                                     : نویسنده</a></button>
                         </div>
+                         <div class="col-12 text-right" style="direction: rtl">
+                            <p>دسته بندی:<span class="bg-warning">{{ post.category }}</span></p>
+                        </div>
 
                     </div>
                     <div class="row mt-4">
