@@ -11,10 +11,10 @@
                 <img class="rounded" src="{{ url_for('static', filename='media/uploads/posts/' + post.image) }}"
                      style="height: 400px;width: 600px">
             </div>
-            <div class="card-body">
+            <div >
                 <div class="row" style="direction: rtl">
                     <h3>{{post.title}}</h3>
-                    <h4>{{ post.pub_date }}</h4>
+
                     <h5>{{ post.category_id }}</h5>
                 </div>
                 <div class="row" style="direction: rtl">
@@ -27,6 +27,10 @@
                                href="{{ url_for('blog.user_posts' ,user_id=post.user._id|string) }}">{{post.user.username}}
                                 : نویسنده</a></button>
                     </div>
+                 <div class="col-12 text-right" style="direction: rtl">
+                            <p>دسته بندی:<span class="bg-warning">{{ post.category }}</span></p>
+                        </div>
+
 
                     <div class="col-auto">
                         {% if g.user._id|string == post.user._id|string %}
@@ -63,6 +67,7 @@
                                 <p style="font-size: 20px" id="count-dislike"> {{ post.dislike|length }}</p></i>
                         </button>
                     </div>
+
                     <div class="row justify-content-end mb-3">
                         <button class="btn btn-light">Tags:</button>
                         {% for tag in post.tag %}
@@ -71,7 +76,14 @@
                                href="{{ url_for('blog.tag_posts' ,tag=tag) }}">{{ tag }}</a>
                         </button>
                         {% endfor %}
+
                     </div>
+
+
+
+                </div>
+             <div class="col-12">
+                     <p style="font-size: 11px;">{{ post.pub_date }}:تاریخ انتشار</p>
                 </div>
 
 
