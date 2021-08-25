@@ -1,6 +1,11 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %}
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static',filename='css/search.css') }}">
+<script src="{{ url_for('static', filename='js/search.js') }}"></script>
+{% endblock %}
+{% block content %}
 <div class="row border-bottom" style="background: white;height: auto;margin-top: 2rem">
-    <div class="col-6 ml-6">
+    <div class="col-7 ml-7">
 
         <div class=" col-md-4 col-sm-5 d-sm-inline">
             {% if g.user %}
@@ -69,17 +74,47 @@
                 <a href="{{ url_for('blog.register') }}" class="text-white">ثبت نام</a>
             </button>
             {% endif %}
-            <button class="btn ">
-                <i class="fa fa-search"></i>
-            </button>
 
+            <button class="btn btn-light btn-outline-secondary" type="button" data-toggle="modal"
+                    data-target="#searchModal"><i class="fa fa-search"></i></button>
+
+
+        </div>
+        <div class="modal" id="searchModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                            <button type="button" class="close bg-danger" data-dismiss="modal">&times;</button>
+                        </div>
+                    <div class="modal-body">
+
+                        <div class="search-container">
+
+                                <div class="row">
+                                    <div class="col-8">
+                                        <input style="direction: rtl" class="border-info" type="text"
+                                               placeholder=" جست و جو..." name="search" id="search-input">
+
+                                    </div>
+                                    <div class="col-3">
+                                        <button id="search" class="btn btn-outline-info" type="button" onclick="search()"><i
+                                                class="fa fa-search"></i></button>
+
+                                    </div>
+                                </div>
+                                <div class="row" id="search-posts" style="width: 100%"></div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
 
     </div>
 
 
-    <div class="col-6">
+    <div class="col-5">
         <div class="row" style="display: flex;justify-content: flex-end ;margin-right: 30px">
             <button class="btn ">
                 <h1><a href="{{ url_for('blog.home') }}" class="text-info">
@@ -107,6 +142,7 @@
     </div>
 
 </div>
+
 {% block navbar %}
 <div class="container-fluid mb-5">
     <div class="row navbar " style="direction: rtl;width: 100vw;height: 5px;margin-top:0px">
@@ -189,9 +225,12 @@
 
 </div>
 
-</div>
 
-</div>
-{% endblock %} {% block newPost %} {% endblock %} {% block posts %} {% endblock %} {% block detail_post %} {% endblock %} {% endblock %} {% block js %}
-<script src="{{ url_for('static', filename='js/index.js') }}"></script>
+
+{% endblock %} {% block newPost %} {% endblock %}
+{% block posts %}
+<div id="container"></div>
+{% endblock %}
+{% block detail_post %} {% endblock %} {% endblock %} {% block js %}
+
 {% endblock %}

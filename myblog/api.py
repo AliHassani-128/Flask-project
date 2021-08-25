@@ -1,4 +1,6 @@
 import json
+import pprint
+
 from bson import ObjectId
 from flask import Blueprint, session, jsonify
 from flask import flash
@@ -68,10 +70,19 @@ def list_tags():
     return render_template('')
 
 
-@bp.route("/search/")
+@bp.route("/search/",methods=['POST'])
 def search():
-    return render_template('')
+    error = None
+    if request.method == 'POST':
+        input = request.data.decode("utf-8")
+        posts = get_db().posts.find({'$or':[{'title':{'$regex':f'{input}'}},{'content':{'$regex':f'{input}'}},{'user.username':{'$regex':f'{input}'}},{'tag':{'$regex':f'{input}'}}]})
+        if not posts:
+            flash('موردی برای کلمه جست و جو شما یافت نشد', 'alert-danger')
+            return render_template('index.html')
+        else:
+            dict_posts = {str(post['_id']):[post['title'],post['image']] for post in list(posts)}
 
+    return json.dumps(dict_posts)
 
 @bp.route("/user-profile/<user_id>/")
 def user_profile(user_id):
