@@ -9,5 +9,8 @@ $(".cat_btn").click(function(){
       console.log(typeof ($("#select_category").val()))
 })
 
-$(".select_category").click(function (){
-  $("#category_content").hide()})
+$(".select_c").click(function (){
+  $("#category_content").hide();
+  $("#select_category").show()
+$('#label').show()})
+

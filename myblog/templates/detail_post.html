@@ -6,14 +6,16 @@
 
 <div class="container d-flex justify-content-center">
     <div class="col-6 bg-white">
-        <div class="card" style="height:100% ">
-            <div class="card-header">
+        <div  style="height:100% ">
+            <div >
                 <img class="rounded" src="{{ url_for('static', filename='media/uploads/posts/' + post.image) }}"
-                     style="width:100%">
+                     style="height: 400px;width: 600px">
             </div>
             <div class="card-body">
                 <div class="row" style="direction: rtl">
                     <h3>{{post.title}}</h3>
+                    <h4>{{ post.pub_date }}</h4>
+                    <h5>{{ post.category_id }}</h5>
                 </div>
                 <div class="row" style="direction: rtl">
                     <strong><p>{{ post.content }}</p></strong><br>

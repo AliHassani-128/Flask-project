@@ -30,7 +30,7 @@
 
                     {% for category in categories %}
                     {% if cat._id==category.category_id %}
-                        <button type="button" class="btn cat_btn select_category" id="select_category" value="{{ category.name }}">{{ category.name }}</button>
+                        <button type="button" class="btn cat_btn select_c" value="{{ category.name }}">{{ category.name }}</button>
                         <br>
                     {% endif %}
                     {% endfor %}
@@ -43,7 +43,8 @@
 
             </div>
             <div class="row mt-4 input" id="category" style="max-width: 70%">
-                <input type="text" name="category" id="select_category" style="display: none">
+                <label for="select_category" id="label" style="display: none">دسته بندی انتخاب شده:</label>
+                <input type="text" name="category" id="select_category" style="display: none" >
             </div>
 
             <div class="row d-flex justify-content-start mt-4">
