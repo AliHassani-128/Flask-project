@@ -49,7 +49,8 @@ def profile(user_id):
 def post_list(user_id):
     posts = get_db().posts.find({'user._id': ObjectId(user_id)})
     categories = get_db().categories.find()
-    return render_template('my_posts.html', posts=list(posts), categories=categories, )
+    tags=get_db().tag.find()
+    return render_template('my_posts.html', posts=list(posts), categories=list(categories),tags=list(tags) )
 
 
 # for create a new post
