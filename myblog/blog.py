@@ -39,19 +39,21 @@ def login_required(view):
 
     return wrapped_view
 
-#return all categories and tags
+# return all categories and tags
+
+
 def get_info():
     db = get_db()
     categories = db.categories.find()
     tags = db.tag.find()
-    return categories,tags
+    return categories, tags
 
 
 # Home page of site that show all posts
 @bp.route("/")
 def home():
     posts = get_db().posts.find()
-    categories,tags = get_info()
+    categories, tags = get_info()
     return render_template('all_posts.html', posts=list(posts), categories=list(categories), tags=list(tags))
 
 
@@ -60,8 +62,8 @@ def home():
 def post(post_id):
     db = get_db()
     post = db.posts.find_one({'_id': ObjectId(post_id)})
-    categories,tags = get_info()
-    return render_template('detail_post.html', post=post,categories=list(categories), tags=list(tags))
+    categories, tags = get_info()
+    return render_template('detail_post.html', post=post, categories=list(categories), tags=list(tags))
 
 
 @bp.route("/category-posts/<category_id>/")
@@ -69,8 +71,8 @@ def category(category_id):
     db = get_db()
     category = db.categories.find_one({'_id': ObjectId(category_id)})
     posts = db.posts.find({"category": category['name']})
-    categories,tags = get_info()
-    return render_template('all_posts.html', posts=list(posts),categories=list(categories), tags=list(tags))
+    categories, tags = get_info()
+    return render_template('all_posts.html', posts=list(posts), categories=list(categories), tags=list(tags))
 
 
 @bp.route("/tag-posts/<tag_id>")
@@ -166,8 +168,7 @@ def user_posts(user_id):
 def tag_posts(tag):
     posts = get_db().posts.find({'tag': {'$in': [tag]}})
     categories, tags = get_info()
-    return render_template('all_posts.html', posts=list(posts),categories=list(categories), tags=list(tags))
-
+    return render_template('all_posts.html', posts=list(posts), categories=list(categories), tags=list(tags))
 
 
 # like a post
@@ -187,7 +188,7 @@ def like():
                 likes = list(get_db().posts.aggregate(
                     [{'$match': {'_id': ObjectId(post_id)}},
                      {'$project':
-                          {'like': {'$size': '$like'}}}
+                      {'like': {'$size': '$like'}}}
                      ]))[0]
                 return json.dumps({'likes': likes['like'], 'color': 'red'})
             else:
@@ -198,12 +199,12 @@ def like():
                 likes = list(get_db().posts.aggregate(
                     [{'$match': {'_id': ObjectId(post_id)}},
                      {'$project':
-                          {'like': {'$size': '$like'}}}
+                      {'like': {'$size': '$like'}}}
                      ]))[0]
                 dislikes = list(get_db().posts.aggregate(
                     [{'$match': {'_id': ObjectId(post_id)}},
                      {'$project':
-                          {'dislike': {'$size': '$dislike'}}}
+                      {'dislike': {'$size': '$dislike'}}}
                      ]))[0]
 
                 return json.dumps({'likes': likes['like'], 'color': 'red', 'dislikes': dislikes['dislike']})
@@ -215,7 +216,7 @@ def like():
             likes = list(get_db().posts.aggregate(
                 [{'$match': {'_id': ObjectId(post_id)}},
                  {'$project':
-                      {'like': {'$size': '$like'}}}
+                  {'like': {'$size': '$like'}}}
                  ]))[0]
             return json.dumps({'likes': likes['like'], 'color': 'lightslategray'})
     else:
@@ -239,7 +240,7 @@ def dislike():
                 dislikes = list(get_db().posts.aggregate(
                     [{'$match': {'_id': ObjectId(post_id)}},
                      {'$project':
-                          {'dislike': {'$size': '$dislike'}}}
+                      {'dislike': {'$size': '$dislike'}}}
                      ]))[0]
                 return json.dumps({'dislikes': dislikes['dislike']})
             else:
@@ -250,12 +251,12 @@ def dislike():
                 likes = list(get_db().posts.aggregate(
                     [{'$match': {'_id': ObjectId(post_id)}},
                      {'$project':
-                          {'like': {'$size': '$like'}}}
+                      {'like': {'$size': '$like'}}}
                      ]))[0]
                 dislikes = list(get_db().posts.aggregate(
                     [{'$match': {'_id': ObjectId(post_id)}},
                      {'$project':
-                          {'dislike': {'$size': '$dislike'}}}
+                      {'dislike': {'$size': '$dislike'}}}
                      ]))[0]
                 return json.dumps({'likes': likes['like'], 'color': 'lightslategray', 'dislikes': dislikes['dislike']})
 
@@ -266,7 +267,7 @@ def dislike():
             dislikes = list(get_db().posts.aggregate(
                 [{'$match': {'_id': ObjectId(post_id)}},
                  {'$project':
-                      {'dislike': {'$size': '$dislike'}}}
+                  {'dislike': {'$size': '$dislike'}}}
                  ]))[0]
             return json.dumps({'dislikes': dislikes['dislike']})
 

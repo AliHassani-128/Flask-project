@@ -6,13 +6,13 @@ function search() {
         contentType: false,
         cache: false,
         processData: false,
-        success: function (posts) {
+        success: function(posts) {
             let data = JSON.parse(posts)
             console.log(data);
             if (data.error) {
                 $('#search-posts').html('')
                 let div = $(`<div class="row rounded mt-3 ml-4 alert alert-danger justify-content-center" style="width: 100%" >${data.error}</div>`).appendTo('#search-posts');
-                setTimeout(function () {
+                setTimeout(function() {
                     $(div).fadeOut('slow');
                 }, 2000);
             } else {
@@ -34,7 +34,7 @@ function search() {
 
             }
         },
-        error: function () {
+        error: function() {
             console.log('error')
         }
 

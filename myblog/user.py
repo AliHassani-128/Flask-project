@@ -10,7 +10,7 @@ from flask import url_for
 import json
 from werkzeug.exceptions import abort
 from werkzeug.utils import secure_filename
-from datetime import date,datetime
+from datetime import date, datetime
 import pprint
 from persiantools.jdatetime import JalaliDate
 
@@ -49,7 +49,8 @@ def profile(user_id):
 def post_list(user_id):
     posts = get_db().posts.find({'user._id': ObjectId(user_id)})
     categories = get_db().categories.find()
-    return render_template('my_posts.html', posts=list(posts), categories=categories, )
+    tags = get_db().tag.find()
+    return render_template('my_posts.html', posts=list(posts), categories=list(categories), tags=list(tags))
 
 
 # for create a new post
@@ -80,19 +81,20 @@ def create_post():
             db.posts.insert_one({'user': user, 'title': title, 'content': content,
                                  'category': category,
                                  'tag': tags, 'image': image.filename,
-                                 'status': status, 'like': [], 'dislike': [],'pub_date':str(JalaliDate.today())}
+                                 'status': status, 'like': [], 'dislike': [], 'pub_date': str(JalaliDate.today())}
                                 )
 
             for tag in tags:
-                if not db.tag.find_one({'name':tag}):
+                if not db.tag.find_one({'name': tag}):
                     db.tag.insert_one({"name": tag})
-            db.posts.create_index([('title', 1), ('content', 1), ('user.username', 1), ('tag', 1)])
+            db.posts.create_index(
+                [('title', 1), ('content', 1), ('user.username', 1), ('tag', 1)])
             return redirect(url_for('blog.home'))
         else:
             flash('پست با این عنوان موجوداست عنوان دیگری انتخاب کنید', 'alert-danger')
-            return render_template('new_post.html', categories=list(categories),tags=list(tags))
+            return render_template('new_post.html', categories=list(categories), tags=list(tags))
 
-    return render_template('new_post.html', categories=list(categories),tags=list(tags))
+    return render_template('new_post.html', categories=list(categories), tags=list(tags))
 
 
 # for edit a post (just title,content,tags) can be change

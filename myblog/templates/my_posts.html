@@ -6,12 +6,11 @@
     <div id="posts" class="row " style="min-width: 100%">
         {% for post in posts %}
 
-        <div class="col-4 bg-white mt-2">
-            <div class="card" style="height:100% ">
+        <div class="col-12 bg-white mt-2">
+            <div class="card" style="height:100% ;margin-right: 30%;margin-left: 30%">
                 <div class="card-header">
 
-                    <img class="rounded" src="{{ url_for('static', filename='media/uploads/posts/' + post.image) }}"
-                         style="width:100%;max-height: 200px">
+                    <img class="rounded card-img" src="{{ url_for('static', filename='media/uploads/posts/' + post.image) }}" style="object-fit: none;">
                 </div>
                 <div class="card-body">
                     <div class="row" style="direction: rtl">
@@ -35,6 +34,9 @@
                                    href="{{ url_for('blog.user_posts' ,user_id=post.user._id|string) }}">{{post.user.username}}
                                     : نویسنده</a></button>
                         </div>
+                        <div class="col-12 text-right" style="direction: rtl">
+                            <p>دسته بندی:<span class="bg-warning">{{ post.category }}</span></p>
+                        </div>
 
                     </div>
                     <div class="row mt-4">
@@ -45,30 +47,38 @@
 
                                 وضعیت پست : فعال
 
-                            </button>
-                            {% else %}
+                            </button> {% else %}
                             <button class="btn btn-danger text-white" style="direction: rtl">
 
                                 وضعیت پست : غیر فعال
 
-                            </button>
-                            {% endif %}
+                            </button> {% endif %}
 
                         </div>
                     </div>
 
 
                 </div>
+                <div class="card-footer text-center">
+                    <div class="col-12 ">
+                        <p style="font-size: 11px;float: right">{{ post.pub_date }}تاریخ انتشار</p>
+                    </div>
+                </div>
+
+
+
             </div>
         </div>
 
-        {% endfor %}
-
-
     </div>
+
+    {% endfor %}
 
 
 </div>
+
+
+
 {% endif %} {% endblock %} {% block js %}
 <script src="{{ url_for('static',filename='js/alert.js') }}"></script>
 {% endblock %}

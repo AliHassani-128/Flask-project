@@ -1,9 +1,7 @@
-{% extends 'base.html' %}
-{% block css %}
+{% extends 'base.html' %} {% block css %}
 <link rel="stylesheet" href="{{ url_for('static',filename='css/search.css') }}">
 <script src="{{ url_for('static', filename='js/search.js') }}"></script>
-{% endblock %}
-{% block content %}
+{% endblock %} {% block content %}
 <div class="row border-bottom" style="background: white;height: auto;margin-top: 2rem">
     <div class="col-7 ml-7">
 
@@ -30,9 +28,7 @@
 
                             <div class="row mb-3 d-flex justify-content-center">
                                 {% if g.user.image %}
-                                <img style="border-radius: 50%;max-height: 100px;max-width: 200px"
-                                     src="{{ url_for('static', filename='media/uploads/profiles/' + g.user.image) }}"
-                                     alt=""> {% endif %}
+                                <img style="border-radius: 50%;max-height: 100px;max-width: 200px" src="{{ url_for('static', filename='media/uploads/profiles/' + g.user.image) }}" alt=""> {% endif %}
                             </div>
 
                             <div class="navbar alert-warning rounded mb-3">
@@ -72,11 +68,9 @@
 
             <button class="btn btn-primary">
                 <a href="{{ url_for('blog.register') }}" class="text-white">ثبت نام</a>
-            </button>
-            {% endif %}
+            </button> {% endif %}
 
-            <button class="btn btn-light btn-outline-secondary" type="button" data-toggle="modal"
-                    data-target="#searchModal"><i class="fa fa-search"></i></button>
+            <button class="btn btn-light btn-outline-secondary" type="button" data-toggle="modal" data-target="#searchModal"><i class="fa fa-search"></i></button>
 
 
         </div>
@@ -84,25 +78,24 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                            <button type="button" class="close bg-danger" data-dismiss="modal">&times;</button>
-                        </div>
+                        <button type="button" class="close bg-danger" data-dismiss="modal">&times;</button>
+                    </div>
                     <div class="modal-body">
 
                         <div class="search-container">
 
-                                <div class="row justify-content-end">
+                            <div class="row justify-content-end">
 
-                                        <input style="direction: rtl" class="border-info" type="text"
-                                               placeholder=" جست و جو..." name="search" id="search-input">
-
+                                <input style="direction: rtl" class="border-info" type="text" placeholder=" جست و جو..." name="search" id="search-input">
 
 
-                                        <button id="search" class="btn btn-outline-info ml-1" type="button" onclick="search()"><i
+
+                                <button id="search" class="btn btn-outline-info ml-1" type="button" onclick="search()"><i
                                                 class="fa fa-search"></i></button>
 
 
-                                </div>
-                                <div class="row" id="search-posts" style="width: 100%"></div>
+                            </div>
+                            <div class="row" id="search-posts" style="width: 100%"></div>
 
                         </div>
                     </div>
@@ -126,11 +119,9 @@
 
 
                 </a></h1>
-            </button>
-            {% if g.user.image %}
+            </button> {% if g.user.image %}
             <div class="d-none d-sm-none d-lg-inline col-lg-2 ">
-                <img style="border-radius: 50%;max-height: 70px;width: 70px"
-                     src="{{ url_for('static', filename='media/uploads/profiles/' + g.user.image) }}" alt="">
+                <img style="border-radius: 50%;max-height: 70px;width: 70px" src="{{ url_for('static', filename='media/uploads/profiles/' + g.user.image) }}" alt="">
 
             </div>
             {% endif %}
@@ -163,8 +154,7 @@
                                 {{cat.name }}
                             </button>
                             <br>
-                            <div class="modal fade" id="myModal{{cat._id}}" role="dialog" tabindex="-1"
-                                 aria-hidden="true">
+                            <div class="modal fade" id="myModal{{cat._id}}" role="dialog" tabindex="-1" aria-hidden="true">
                                 <div class="modal-dialog" id="#myModal{{cat._id }}">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -176,9 +166,7 @@
 
 
                                             {% for category in categories %} {% if cat._id==category.category_id %}
-                                            <a href="{{ url_for('blog.category',category_id=category._id) }}"
-                                               id="{{ category._id }}">{{ category.name }} </a><br> {% endif %} {%
-                                            endfor %}
+                                            <a href="{{ url_for('blog.category',category_id=category._id) }}" id="{{ category._id }}">{{ category.name }} </a><br> {% endif %} {% endfor %}
 
                                         </div>
                                     </div>
@@ -206,8 +194,7 @@
                         {% if tags %}
                         <div class="modal-body">
                             {% for tag in tags %}
-                            <a class="text-dark" href="{{ url_for('blog.tag_posts' ,tag=tag.name) }}">{{ tag.name }}</a><br>
-                            {% endfor %}
+                            <a class="text-dark" href="{{ url_for('blog.tag_posts' ,tag=tag.name) }}">{{ tag.name }}</a><br> {% endfor %}
                         </div>
                         {% endif %}
                     </div>
@@ -223,9 +210,4 @@
 
 
 
-{% endblock %} {% block newPost %} {% endblock %}
-{% block posts %}
-{% endblock %}
-{% block detail_post %} {% endblock %} {% endblock %} {% block js %}
-
-{% endblock %}
+{% endblock %} {% block newPost %} {% endblock %} {% block posts %} {% endblock %} {% block detail_post %} {% endblock %} {% endblock %} {% block js %} {% endblock %}
