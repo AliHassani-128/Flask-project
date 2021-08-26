@@ -87,7 +87,6 @@ def create_post():
                 if not db.tag.find_one({'name':tag}):
                     db.tag.insert_one({"name": tag})
             db.posts.create_index([('title', 1), ('content', 1), ('user.username', 1), ('tag', 1)])
-
             return redirect(url_for('blog.home'))
         else:
             flash('پست با این عنوان موجوداست عنوان دیگری انتخاب کنید', 'alert-danger')

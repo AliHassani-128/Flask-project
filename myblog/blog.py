@@ -39,14 +39,19 @@ def login_required(view):
 
     return wrapped_view
 
+#return all categories and tags
+def get_info():
+    db = get_db()
+    categories = db.categories.find()
+    tags = db.tag.find()
+    return categories,tags
+
 
 # Home page of site that show all posts
 @bp.route("/")
 def home():
-    db = get_db()
-    posts = db.posts.find()
-    categories = db.categories.find()
-    tags = db.tag.find()
+    posts = get_db().posts.find()
+    categories,tags = get_info()
     return render_template('all_posts.html', posts=list(posts), categories=list(categories), tags=list(tags))
 
 
@@ -55,16 +60,17 @@ def home():
 def post(post_id):
     db = get_db()
     post = db.posts.find_one({'_id': ObjectId(post_id)})
-    return render_template('detail_post.html', post=post)
+    categories,tags = get_info()
+    return render_template('detail_post.html', post=post,categories=list(categories), tags=list(tags))
 
 
 @bp.route("/category-posts/<category_id>/")
 def category(category_id):
     db = get_db()
-    categories = db.categories.find()
-    posts = db.post.find({"category": category_id})
-
-    return render_template('all_posts.html', categories=list(categories), posts=list(posts))
+    category = db.categories.find_one({'_id': ObjectId(category_id)})
+    posts = db.posts.find({"category": category['name']})
+    categories,tags = get_info()
+    return render_template('all_posts.html', posts=list(posts),categories=list(categories), tags=list(tags))
 
 
 @bp.route("/tag-posts/<tag_id>")
@@ -159,7 +165,8 @@ def user_posts(user_id):
 @bp.route('/tag-posts/<tag>/')
 def tag_posts(tag):
     posts = get_db().posts.find({'tag': {'$in': [tag]}})
-    return render_template('all_posts.html', posts=list(posts))
+    categories, tags = get_info()
+    return render_template('all_posts.html', posts=list(posts),categories=list(categories), tags=list(tags))
 
 
 

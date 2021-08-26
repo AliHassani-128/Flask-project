@@ -19,32 +19,27 @@
                 <textarea name="content" class="form-control data" id="" cols="30" rows="10"
                           placeholder="محتوای مطلب"></textarea>
             </div>
-            <div class="row mt-4">
-                <ul id="myUL">
-                    <li><span class="caret border btn bg-info">دسته بندی</span>
-                        <ul class="nested">
-                            {% for cat in categories %} {% if cat.category_id==Null %}
-                            <li class="category  bg-dark"><span class="caret   text-info">{{ cat.name }}</span>
-                                <ul class="nested">
-                                    {% for category in categories %} {% if cat._id==category.category_id %}
-                                    <ul>
-                                        <li class="text-white">
-                                            <button class="btn text-white cat_btn" type="button"
-                                                    value="{{ category.name }}">{{ category.name }}
-                                            </button>
-                                        </li>
-                                    </ul>
-                                    {% endif %} {% endfor %}
-                                </ul>
+            <div class="row mt-4" >
+                    <button type="button" class="btn btn-info btn_category">دسته بندی</button>
+            <div id="category_content" style="display: none">
 
-                            </li>
-                            {% endif %} {% endfor %}
+                <ul >
+                  {% for cat in categories %}
+                {% if cat.category_id==Null %}
+                    <li class="text-center list-inline-item  "><p class="bg-dark text-info li_cat">{{ cat.name }} </p>
 
-                        </ul>
-                    </li>
+                    {% for category in categories %}
+                    {% if cat._id==category.category_id %}
+                        <button type="button" class="btn cat_btn select_c" value="{{ category.name }}">{{ category.name }}</button>
+                        <br>
+                    {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+
+                </li>
                 </ul>
-
-                </select>
+            </div>
             </div>
             <div class="row mt-4 input" id="category" style="max-width: 70%">
                 <input type="text" name="category" id="select_category" style="display: none">
@@ -82,7 +77,7 @@
                            style="align-items: center;width: 70%">
                 </div>
             </div>
-            <div class="row d-flex justify-content-center mt-4">
+            <div class="row d-flex justify-content-center mt-4 mb-3">
 
                 <button id="newPost" type="submit" class="btn btn-info rounded ml-3">ثبت</button>
                 <button type="button" class="btn btn-warning rounded text-white">

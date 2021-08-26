@@ -11,15 +11,15 @@
             {% if g.user %}
 
             <button class="btn btn-danger "><a class="text-white" href="{{ url_for('api.logout') }}">خروج</a></button>
-            <button class="btn btn-info "><a class="text-white" href="{{ url_for('user.create_post') }}">ایجاد پست</a>
+            <button class="btn btn-info d-none d-lg-inline"><a class="text-white" href="{{ url_for('user.create_post') }}">ایجاد پست</a>
             </button>
 
-            <button class="btn btn-primary "><a class="text-white"
+            <button class="btn btn-primary d-none d-lg-inline"><a class="text-white"
                                                 href="{{ url_for('user.post_list',user_id=g.user._id|string) }}">پست های
                 من</a>
             </button>
 
-            <button class="btn btn-primary " data-toggle="modal" data-target="#myProfile">پروفایل من
+            <button class="btn btn-primary d-none d-sm-inline" data-toggle="modal" data-target="#myProfile">پروفایل من
             </button>
 
 
@@ -90,17 +90,17 @@
 
                         <div class="search-container">
 
-                                <div class="row">
-                                    <div class="col-8">
+                                <div class="row justify-content-end">
+
                                         <input style="direction: rtl" class="border-info" type="text"
                                                placeholder=" جست و جو..." name="search" id="search-input">
 
-                                    </div>
-                                    <div class="col-3">
-                                        <button id="search" class="btn btn-outline-info" type="button" onclick="search()"><i
+
+
+                                        <button id="search" class="btn btn-outline-info ml-1" type="button" onclick="search()"><i
                                                 class="fa fa-search"></i></button>
 
-                                    </div>
+
                                 </div>
                                 <div class="row" id="search-posts" style="width: 100%"></div>
 
@@ -128,9 +128,7 @@
                 </a></h1>
             </button>
             {% if g.user.image %}
-            <div class="col-2">
-
-
+            <div class="d-none d-sm-none d-lg-inline col-lg-2 ">
                 <img style="border-radius: 50%;max-height: 70px;width: 70px"
                      src="{{ url_for('static', filename='media/uploads/profiles/' + g.user.image) }}" alt="">
 
@@ -205,15 +203,13 @@
                         <div class="modal-header">
                             <button type="button" class="close bg-danger" data-dismiss="modal">&times;</button>
                         </div>
+                        {% if tags %}
                         <div class="modal-body">
                             {% for tag in tags %}
-
-
                             <a class="text-dark" href="{{ url_for('blog.tag_posts' ,tag=tag.name) }}">{{ tag.name }}</a><br>
                             {% endfor %}
-
-
                         </div>
+                        {% endif %}
                     </div>
 
                 </div>
@@ -229,7 +225,6 @@
 
 {% endblock %} {% block newPost %} {% endblock %}
 {% block posts %}
-<div id="container"></div>
 {% endblock %}
 {% block detail_post %} {% endblock %} {% endblock %} {% block js %}
 

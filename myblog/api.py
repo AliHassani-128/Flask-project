@@ -72,15 +72,31 @@ def list_tags():
 
 @bp.route("/search/",methods=['POST'])
 def search():
+    # error = None
+    # if request.method == 'POST':
+    #     input = request.data.decode("utf-8")
+    #     posts = get_db().posts.find({'$or':[{'title':{'$regex':f'{input}'}},{'content':{'$regex':f'{input}'}},{'user.username':{'$regex':f'{input}'}},{'tag':{'$regex':f'{input}'}}]})
+    #     if len(list(posts)) == 0:
+    #         error = 'موردی برای کلمه جست و جوی شما یافت نشد'
+    #         return json.dumps({'error':error})
+    #     else:
+    #         print(list(posts))
+    #         dict_posts = {str(post['_id']):[post['title'],post['image']] for post in list(posts)}
+    #         print(dict_posts)
+    # return json.dumps(dict_posts)
     error = None
     if request.method == 'POST':
         input = request.data.decode("utf-8")
-        posts = get_db().posts.find({'$or':[{'title':{'$regex':f'{input}'}},{'content':{'$regex':f'{input}'}},{'user.username':{'$regex':f'{input}'}},{'tag':{'$regex':f'{input}'}}]})
-        if not posts:
-            flash('موردی برای کلمه جست و جو شما یافت نشد', 'alert-danger')
-            return render_template('index.html')
+        posts = list(get_db().posts.find({'$or': [{'title': {'$regex': f'{input}'}}, {'content': {'$regex': f'{input}'}},
+                                             {'user.username': {'$regex': f'{input}'}},
+                                             {'tag': {'$regex': f'{input}'}}]}))
+
+        if len(posts) == 0:
+            error = 'موردی یافت نشد'
+            return json.dumps({'error':error})
+
         else:
-            dict_posts = {str(post['_id']):[post['title'],post['image']] for post in list(posts)}
+            dict_posts = {str(post['_id']): [post['title'], post['image']] for post in list(posts)}
 
     return json.dumps(dict_posts)
 
