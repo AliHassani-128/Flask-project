@@ -17,7 +17,7 @@ from myblog.db import get_db
 
 bp = Blueprint("api", __name__, url_prefix='/api/')
 
-
+#for encoding an object to json
 class JSONEncoder(json.JSONEncoder):
     def default(self, o):
         if isinstance(o, ObjectId):
@@ -57,19 +57,6 @@ def post_active(post_id):
     return JSONEncoder().encode(list(posts))
 
 
-@bp.route("/categorys-list/")
-def list_categorys():
-    categories = get_db().categories.find()
-    subcategories = get_db().subcategories.find()
-
-    return render_template('test.html', categories=categories, subcategories=subcategories)
-
-
-@bp.route("/tags-list/")
-def list_tags():
-    return render_template('')
-
-
 @bp.route("/search/", methods=['POST'])
 def search():
 
@@ -91,10 +78,6 @@ def search():
 
     return json.dumps(dict_posts)
 
-
-@bp.route("/user-profile/<user_id>/")
-def user_profile(user_id):
-    return render_template('')
 
 
 @bp.route("/logout/")
