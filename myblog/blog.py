@@ -40,8 +40,6 @@ def login_required(view):
     return wrapped_view
 
 # return all categories and tags
-
-
 def get_info():
     db = get_db()
     categories = db.categories.find()
@@ -74,10 +72,6 @@ def category(category_id):
     categories, tags = get_info()
     return render_template('all_posts.html', posts=list(posts), categories=list(categories), tags=list(tags))
 
-
-@bp.route("/tag-posts/<tag_id>")
-def tag(tag_id):
-    return render_template('')
 
 
 # for register a new user to site
