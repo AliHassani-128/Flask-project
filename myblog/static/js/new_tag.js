@@ -15,7 +15,7 @@ $('#newPost').click(function() {
     })));
 })
 $('#edit').click(function() {
-    $('#all-tags').val(JSON.stringify(tag_list.filter(function(str) {
-        return /\S/.test(str);
-    })))
+
+    $('#all-tags').val(JSON.stringify(tag_list))
+
 })

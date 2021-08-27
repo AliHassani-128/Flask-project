@@ -10,7 +10,9 @@
             <div class="card" style="height:100%;margin-left: 30%;margin-right: 30%">
                 <div class="card-header">
 
-                    <img class="rounded card-img " src="{{ url_for('static', filename='media/uploads/posts/' + post.image) }}" style="object-fit: contain">
+                    <img class="rounded card-img "
+                         src="{{ url_for('static', filename='media/uploads/posts/' + post.image) }}"
+                         style="object-fit: contain">
                 </div>
                 <div class="card-body">
                     <div class="row" style="direction: rtl">
@@ -39,10 +41,11 @@
                                    href="{{ url_for('blog.user_posts' ,user_id=post.user._id|string) }}">{{post.user.username}}
                                     : نویسنده</a></button>
                         </div>
-                        <div class="col-12 text-right" style="direction: rtl">
-                            <p>دسته بندی:<span class="bg-warning">{{ post.category }}</span></p>
+                        <div class="col-12 text-right mt-3" style="direction: rtl">
+                            <p>دسته بندی:
+                                <button type="button" class="btn btn-warning">{{ post.category }}</button>
+                            </p>
                         </div>
-
 
 
                     </div>
@@ -50,7 +53,7 @@
 
                 </div>
                 <div class="card-footer">
-                    <p style="font-size: 11px;float: right">{{ post.pub_date }}تاریخ انتشار</p>
+                    <p style="font-size: 11px;float: right">{{ post.pub_date }} : تاریخ انتشار </p>
                 </div>
             </div>
 

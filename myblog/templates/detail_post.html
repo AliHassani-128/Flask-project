@@ -7,18 +7,25 @@
 <div class="container d-flex justify-content-center">
     <div class="col-12 bg-white">
         <div style="height:100% ">
-            <div>
-                <img class="rounded" src="{{ url_for('static', filename='media/uploads/posts/' + post.image) }}" style="object-fit: contain;margin-left: 50%">
+            <div class="row justify-content-center">
+                <img class="rounded" src="{{ url_for('static', filename='media/uploads/posts/' + post.image) }}" style="max-width: 70%;max-height:300px">
             </div>
             <div>
-                <div class="row" style="direction: rtl">
+                <div class="row mb-5" style="direction: rtl">
                     <h3>{{post.title}}</h3>
+                </div>
+                <div class="row " style="direction: rtl">
 
-                    <h5>{{ post.category_id }}</h5>
+                    <strong><p class="text-justify">{{ post.content }}</p></strong><br>
+
                 </div>
-                <div class="row" style="direction: rtl">
-                    <strong><p>{{ post.content }}</p></strong><br>
+                <div class="row justify-content-between mt-4" >
+                    <div class="col-auto text-right" style="direction: rtl">
+                        <p>دسته بندی:<button type="button" class="btn btn-warning">{{ post.category }}</button></p>
+                    </div>
+                    <p style="font-size: 15px;" class="bg-info rounded text-white">{{ post.pub_date }}:تاریخ انتشار</p>
                 </div>
+
                 <div class="row mb-2 d-flex justify-content-between">
                     <div class="col-auto">
                         <button class="btn btn-info" style="direction: rtl">
@@ -26,9 +33,7 @@
                                href="{{ url_for('blog.user_posts' ,user_id=post.user._id|string) }}">{{post.user.username}}
                                 : نویسنده</a></button>
                     </div>
-                    <div class="col-12 text-right" style="direction: rtl">
-                        <p>دسته بندی:<span class="bg-warning">{{ post.category }}</span></p>
-                    </div>
+
 
 
                     <div class="col-auto">
@@ -76,9 +81,7 @@
 
 
                 </div>
-                <div class="col-12">
-                    <p style="font-size: 11px;">{{ post.pub_date }}:تاریخ انتشار</p>
-                </div>
+
 
 
             </div>
@@ -137,6 +140,7 @@
                             <div class="row d-flex justify-content-center mt-4">
 
                                 <button id="edit" type="submit" class="btn btn-info rounded ml-3">ثبت
+<!--                                    <a href="{{ url_for('user.post_list',user_id=g.user._id|string) }}">ثبت</a>-->
                                 </button>
                                 <button type="button" class="btn btn-warning rounded text-white" data-dismiss="modal">
                                     بازگشت

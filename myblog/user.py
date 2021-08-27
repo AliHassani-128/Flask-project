@@ -106,4 +106,4 @@ def edit_post(post_id):
     get_db().posts.update({'_id': ObjectId(post_id)}, {
         '$set': {'title': title, 'content': content, 'tag': tags}})
 
-    return render_template('detail_post.html', posts=list(get_db().posts.find({'_id': ObjectId(post_id)})))
+    return render_template('detail_post.html', post=get_db().posts.find_one({'_id': ObjectId(post_id)}))
